@@ -1,0 +1,146 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+  }
+  
+  /* Navbar Styles */
+  .navbar {
+    background-color: #035328;
+    padding: 15px 20px;
+    color: rgb(28, 118, 1);
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(231, 215, 215);
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .nav-links a:hover {
+    background-color: #6fa5de;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #c8d8e9;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 180px;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: rgb(15, 14, 14);
+  }
+  
+  .dropdown-menu a:hover {
+    background-color: #3c5c7e;
+  }
+  
+  /* Homepage Section */
+  .home-section {
+    background-color: #f4f4f4;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .home-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .home-section p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #2d3e50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative; /* Changed to relative */
+    width: 100%;
+    margin-top: 20px; /* Added margin for spacing */
+    bottom: 0;
+  }
+  
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  /* Chart Styling */
+  .chart-container {
+    width: 50%;
+    height: 300px;
+    margin: auto;
+    margin-top: 40px;
+  }
+  
+  #productChart {
+    width: 100% !important; /* Ensure the chart fills the container */
+    height: 100% !important; /* Ensure the chart fills the container */
+  }
+  
