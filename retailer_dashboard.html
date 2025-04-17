@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Retailer Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: rgba(0, 51, 34, 0.95);
+      color: #fff;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar a {
+      padding: 12px 18px;
+      margin: 6px 0;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1rem;
+      background-color: transparent;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown > a::after {
+      content: " ▾";
+      float: right;
+    }
+
+    .dropdown-content {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+
+    .dropdown-content a {
+      background-color: rgba(255, 255, 255, 0.05);
+      margin: 2px 0;
+      font-size: 0.95rem;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 60px 40px;
+      flex-grow: 1;
+      overflow-y: auto;
+      color: #fff;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    .retailer-info {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    .retailer-info h2 {
+      margin-top: 0;
+      font-size: 1.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .retailer-info p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Retailer</h2>
+    <a href="index.html">Dashboard</a>
+    <a href="update_profile.html">Update Profile</a>
+    <a href="agriProduct_list.html">Products</a>
+    <a href="sale_information.html">Record Sale</a>
+    <a href="purchases.html">Purchases</a>
+    <a href="buyers.html">Buyer Info</a>
+    <div class="dropdown" onclick="toggleDropdown()">
+      <a>Analytics</a>
+      <div class="dropdown-content" id="analyticsDropdown">
+        <a href="price_trends.html">Price Trends</a>
+      </div>
+    </div>
+    <a href="#logout" onclick="alert('Logging out...')">Logout</a>
+  </div>
+
+  <div class="main">
+    <h1 style="font-size: 2.5rem; margin-bottom: 30px;">Welcome to Your Retailer Dashboard</h1>
+    <div class="retailer-info">
+      <h2>Retailer Information</h2>
+      <p><strong>Retailer ID:</strong> R-2023-001</p> 
+      <p><strong>Name:</strong> GreenFields Retail</p>
+      <p><strong>Contact:</strong> +9876543210</p>
+      <p><strong>Location:</strong> House 21, District A, Country Z</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("analyticsDropdown");
+      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+    }
+  </script>
+</body>
+</html>
