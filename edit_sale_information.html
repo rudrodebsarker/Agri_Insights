@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Sale Information</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .back-btn {
+      margin-top: 15px;
+      background-color: #2ecc71;
+    }
+
+    .back-btn:hover {
+      background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Edit Sale Information</h2>
+
+    <form id="editSaleForm">
+      <label for="saleId">Sale ID</label>
+      <input type="text" id="saleId" name="saleId">
+
+      <label for="saleDate">Date</label>
+      <input type="date" id="saleDate" name="saleDate">
+
+      <label for="saleTime">Time</label>
+      <input type="time" id="saleTime" name="saleTime">
+
+      <label for="retailerId">Retailer ID</label>
+      <select id="retailerId" name="retailerId">
+        <option value="">-- Select Retailer ID --</option>
+        <option value="RETAILER001">RETAILER001</option>
+        <option value="RETAILER002">RETAILER002</option>
+        <option value="RETAILER003">RETAILER003</option>
+      </select>
+
+      <label for="consumerId">Consumer ID</label>
+      <select id="consumerId" name="consumerId">
+        <option value="">-- Select Consumer ID --</option>
+        <option value="CONSUMER001">CONSUMER001</option>
+        <option value="CONSUMER002">CONSUMER002</option>
+        <option value="CONSUMER003">CONSUMER003</option>
+      </select>
+
+      <button type="submit">Save Changes</button>
+      <button type="button" class="back-btn" onclick="goBack()">Back to Sale List</button>
+    </form>
+  </div>
+
+  <script>
+    function getParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        saleId: params.get("saleId") || '',
+        date: params.get("date") || '',
+        time: params.get("time") || '',
+        retailerId: params.get("retailerId") || '',
+        consumerId: params.get("consumerId") || ''
+      };
+    }
+
+    window.onload = function () {
+      const { saleId, date, time, retailerId, consumerId } = getParams();
+      document.getElementById("saleId").value = saleId;
+      document.getElementById("saleDate").value = date;
+      document.getElementById("saleTime").value = time;
+      document.getElementById("retailerId").value = retailerId;
+      document.getElementById("consumerId").value = consumerId;
+    };
+
+    document.getElementById("editSaleForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Sale information updated! (This should update the actual data if connected to backend/local storage)");
+      window.location.href = "sale_information.html";
+    });
+
+    function goBack() {
+      window.location.href = "sale_information.html";
+    }
+  </script>
+
+</body>
+</html>
