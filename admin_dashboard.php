@@ -86,8 +86,8 @@
               <li><a href="logistics.php">Logistics Tracking</a></li>
             </ul>
         </li>
-         <li><a href="demand_elasticity.html">Agri_officer</a></li>
-        <li><a href="#">Recommendations</a></li>
+         <li><a href="Farmer_Agri_Officer.html">Agri_officer</a></li>
+        <li><a href="">Recommendations</a></li>
         <li id="Logout"><a href="index.php?logout='1'">Logout</a></li>
       </ul>
     </div>

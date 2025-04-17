@@ -64,7 +64,17 @@ if (isset($_POST['reg_user'])) {
         header('location: farmer_dashboard.php');
     } elseif ($user_type == 'AgrOfficer') {
         header('location: agrofficer_dashboard.php');
-    } else {
+        
+    }elseif ($user_type == 'Wholesaler') {
+      header('location: wholesaler_dashboard.php');
+      
+  }elseif ($user_type == 'Retailer') {
+    header('location: retailer_dashboard.php');
+    
+}elseif ($user_type == 'Consumer') {
+  header('location: consumer_dashboard.php.php');
+  
+}  else {
         header('location: user_dashboard.php');
     }
   }
@@ -105,6 +115,8 @@ if (isset($_POST['login_user'])) {
         header('location: retailer_dashboard.php');
       } elseif ($user['user_type'] == 'Wholesaler') {
         header('location: wholesaler_dashboard.php');
+      } elseif ($user['user_type'] == 'Consumer') {
+        header('location: consumer_dashboard.php');
       } else {
         header('location: user_dashboard.php');
       }
