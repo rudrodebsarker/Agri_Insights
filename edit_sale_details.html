@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Sale Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .back-btn {
+      margin-top: 15px;
+      background-color: #2ecc71;
+    }
+
+    .back-btn:hover {
+      background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Edit Sale Details</h2>
+
+    <form id="editSaleDetailForm">
+      <label for="saleDetailsId">Sale Details ID</label>
+      <input type="text" id="saleDetailsId" name="saleDetailsId">
+
+      <label for="quantitySold">Quantity Sold</label>
+      <input type="number" id="quantitySold" name="quantitySold">
+
+      <label for="unitPrice">Unit Price</label>
+      <input type="number" id="unitPrice" name="unitPrice">
+
+      <label for="saleId">Sale ID</label>
+      <select id="saleId" name="saleId">
+        <option value="">-- Select Sale ID --</option>
+        <option value="SALE001">SALE001</option>
+        <option value="SALE002">SALE002</option>
+        <option value="SALE003">SALE003</option>
+      </select>
+
+      <label for="productId">Product ID</label>
+      <select id="productId" name="productId">
+        <option value="">-- Select Product ID --</option>
+        <option value="PROD001">PROD001</option>
+        <option value="PROD002">PROD002</option>
+        <option value="PROD003">PROD003</option>
+      </select>
+
+      <button type="submit">Save Changes</button>
+      <button type="button" class="back-btn" onclick="goBack()">Back to Sale Details</button>
+    </form>
+  </div>
+
+  <script>
+    function getParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        saleDetailsId: params.get("saleDetailsId") || '',
+        quantitySold: params.get("quantitySold") || '',
+        unitPrice: params.get("unitPrice") || '',
+        saleId: params.get("saleId") || '',
+        productId: params.get("productId") || ''
+      };
+    }
+
+    window.onload = function () {
+      const { saleDetailsId, quantitySold, unitPrice, saleId, productId } = getParams();
+      document.getElementById("saleDetailsId").value = saleDetailsId;
+      document.getElementById("quantitySold").value = quantitySold;
+      document.getElementById("unitPrice").value = unitPrice;
+      document.getElementById("saleId").value = saleId;
+      document.getElementById("productId").value = productId;
+    };
+
+    document.getElementById("editSaleDetailForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Sale Details updated successfully! (Hook this into storage or backend logic)");
+      window.location.href = "sale_details.html";
+    });
+
+    function goBack() {
+      window.location.href = "sale_details.html";
+    }
+  </script>
+
+</body>
+</html>
