@@ -70,7 +70,7 @@ if (isset($_POST['reg_user'])) {
         } elseif ($user_type == 'Consumer') {
             header('location: consumer_dashboard.php');
         }elseif ($user_type == 'Warehouse_manager') {
-          header('location: Warehouse_manager.php');
+          header('location: Warehouse_manager_dashboard.php');
       }
          else {
             header('location: user_dashboard.php');

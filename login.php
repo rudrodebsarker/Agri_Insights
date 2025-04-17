@@ -41,7 +41,7 @@ if (isset($_POST['login_user'])) {
             } elseif ($user['user_type'] == 'Consumer') {
                 header('location: consumer_dashboard.php');
             }elseif ($user['user_type'] == 'Warehouse_manager') {
-              header('location: Warehouse_manager.php');
+              header('location:Warehouse_manager_dashboard.php');
           } else {
                 header('location: user_dashboard.php');
             }
