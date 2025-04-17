@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Price Trends</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f1f5f9;
+      display: flex;
+      height: 100vh;
+    }
+
+    .filters {
+      width: 280px;
+      padding: 24px;
+      background-color: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .filters h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #1e293b;
+    }
+
+    .filters label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .filters input,
+    .filters select,
+    .filters button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 5px;
+      border: 1px solid #cbd5e1;
+      font-size: 14px;
+    }
+
+    .filters button {
+      margin-top: 20px;
+      background-color: #3b82f6;
+      color: white;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .filters button:hover {
+      background-color: #2563eb;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      background-color: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    h3 {
+      margin-top: 40px;
+      font-size: 18px;
+      color: #1e293b;
+    }
+
+    canvas {
+      margin-top: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .export-button {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background-color: #10b981;
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .export-button:hover {
+      background-color: #059669;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="filters">
+    <h2>Filters</h2>
+    <label for="productInput">Select Product</label>
+    <input type="text" id="productInput" placeholder="Enter Product Name" />
+
+    <label for="fromDate">From</label>
+    <input type="date" id="fromDate" />
+
+    <label for="toDate">To</label>
+    <input type="date" id="toDate" />
+
+    <label for="regionInput">Select Region</label>
+    <select id="regionInput">
+      <option value="">Select District</option>
+      <option value="Dhaka">Dhaka</option>
+      <option value="Chattogram">Chattogram</option>
+      <option value="Rajshahi">Rajshahi</option>
+      <option value="Khulna">Khulna</option>
+      <option value="Barisal">Barisal</option>
+      <option value="Sylhet">Sylhet</option>
+      <option value="Rangpur">Rangpur</option>
+      <option value="Mymensingh">Mymensingh</option>
+    </select>
+
+    <button onclick="applyFilters()">Apply Filters</button>
+    <button onclick="location.href='price_list.html'">Check Price List</button>
+  </div>
+
+  <div class="main-content">
+    <table id="priceTable">
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Name</th>
+          <th>Sale Details ID</th>
+          <th>Unit Price</th>
+          <th>Sale ID</th>
+          <th>Date</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <h3>Price Trends Over Time</h3>
+    <canvas id="priceTrendChart" width="600" height="300"></canvas>
+
+    <h3>Current Unit Prices by Region</h3>
+    <canvas id="regionPriceChart" width="600" height="300"></canvas>
+
+    <button class="export-button" onclick="exportCSVFromCharts()">Export to CSV</button>
+  </div>
+
+  <script>
+    function applyFilters() {
+      const product = document.getElementById('productInput').value.toLowerCase();
+      const tableBody = document.querySelector('#priceTable tbody');
+      tableBody.innerHTML = '';
+    }
+
+    function exportCSVFromCharts() {
+      const chart1 = Chart.getChart('priceTrendChart');
+      const chart2 = Chart.getChart('regionPriceChart');
+
+      let csvContent = 'Price Trends Over Time\nDate,Price\n';
+      if (chart1 && chart1.data.labels.length) {
+        chart1.data.labels.forEach((label, i) => {
+          chart1.data.datasets.forEach(dataset => {
+            csvContent += `${label},${dataset.data[i] || ''}\n`;
+          });
+        });
+      }
+
+      csvContent += '\nCurrent Unit Prices by Region\nRegion,Unit Price\n';
+      if (chart2 && chart2.data.labels.length) {
+        chart2.data.labels.forEach((label, i) => {
+          chart2.data.datasets.forEach(dataset => {
+            csvContent += `${label},${dataset.data[i] || ''}\n`;
+          });
+        });
+      }
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'charts_data.csv';
+      link.click();
+    }
+
+    new Chart(document.getElementById('priceTrendChart').getContext('2d'), {
+      type: 'line',
+      data: { labels: [], datasets: [] },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: 'Date' } },
+          y: { title: { display: true, text: 'Price' } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('regionPriceChart').getContext('2d'), {
+      type: 'bar',
+      data: { labels: [], datasets: [] },
+      options: {
+        responsive: true,
+        scales: {
+          x: { title: { display: true, text: 'Region' } },
+          y: { title: { display: true, text: 'Unit Price' } }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
