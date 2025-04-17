@@ -114,11 +114,12 @@
       <label>User Type</label>
       <select name="user_type" required>
         <option value="Farmer">Farmer</option>
-        <option value="AgrOfficer">Agricultural Officer</option>
+        <option value="Agricultural_Officer">Agricultural Officer</option>
         <option value="Admin">Admin</option>
         <option value="Retailer">Retailer</option>
         <option value="Wholesaler">Wholesaler</option>
         <option value="Consumer">Consumer</option>
+        <option value="Warehouse_manager">Warehouse_manager</option>
       </select>
     </div>
 
