@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Agri Product</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button.back {
+      background-color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add Agri Product</h1>
+    <form method="POST" action="add_product.php">
+      <input type="text" name="product_id" placeholder="Product ID" required />
+      <input type="text" name="name" placeholder="Product Name" required />
+      <input type="text" name="seasonality" placeholder="Seasonality" required />
+      <input type="text" name="type" placeholder="Type" required />
+      <button type="submit" name="add_product">Add Product</button>
+      <a href="agriProduct_list.php"><button class="back" type="button">Back</button></a>
+    </form>
+  </div>
+</body>
+</html>

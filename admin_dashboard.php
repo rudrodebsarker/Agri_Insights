@@ -57,14 +57,22 @@
             <li><a href="production_form.php">Production Info</a></li> 
           </ul>
         </li>
-        <li><a href="sale.php">Sales & Market Price</a></li>
+        <li class="dropdown">
+            <a href="#">Sales & Market Price</a>
+            <ul class="dropdown-menu">
+              <li><a href="sale_information.php">Sale Info</a></li>
+              <li><a href="price_trends.html">Price Trends</a></li>
+              <li><a href="demand_elasticity_01/demand_elasticity.html">Demand & Price Elasticity</a></li>
+              
+            </ul>
+        </li>
         <li class="dropdown">
             <a href="#">Buyer Seller Directories</a>
             <ul class="dropdown-menu">
-              <li><a href="#">Farmer</a></li>
-              <li><a href="#">Wholesaler</a></li>
-              <li><a href="#">Retailer</a></li>
-              <li><a href="#">Consumer</a></li>
+              <li><a href="Farmer.html">Farmer</a></li>
+              <li><a href="WholeSeller.html">Wholesaler</a></li>
+              <li><a href="Retailer.html">Retailer</a></li>
+              <li><a href="Consumer.html">Consumer</a></li>
             </ul>
         </li>
 
@@ -78,8 +86,8 @@
               <li><a href="logistics.php">Logistics Tracking</a></li>
             </ul>
         </li>
-         <li><a href="demand_elasticity.html">Agri_officer</a></li>
-        <li><a href="#">Recommendations</a></li>
+         <li><a href="Farmer_Agri_Officer.html">Agri_officer</a></li>
+        <li><a href="">Recommendations</a></li>
         <li id="Logout"><a href="index.php?logout='1'">Logout</a></li>
       </ul>
     </div>
