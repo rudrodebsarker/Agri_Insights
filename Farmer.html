@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)),
+                        url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 200px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        .input-group label i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+
+        .stats-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stats-icon {
+            font-size: 24px;
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 50%;
+        }
+
+        .form-container {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn {
+            background: #27ae60;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <h1>🌱 Farmer Management System</h1>
+        </div>
+
+        <div class="stats-card">
+            <i class="fas fa-chart-line stats-icon"></i>
+            <div>
+                <h3>Farmers Statistics</h3>
+                <p>Total Farmers: <span id="totalFarmers">0</span></p>
+                <p>Average Experience: <span id="avgExperience">0</span> years</p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="farmerForm">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label><i class="fas fa-id-card"></i>Farmer ID</label>
+                        <input type="text" id="farmerId" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-user"></i>Full Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-road"></i>Road</label>
+                        <input type="text" id="road" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-home"></i>House</label>
+                        <input type="text" id="house" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-map-marked"></i>District</label>
+                        <input type="text" id="district" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-globe"></i>Area</label>
+                        <input type="text" id="area" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-flag"></i>Country</label>
+                        <input type="text" id="country" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-clock"></i>Experience</label>
+                        <input type="number" id="experience" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-cloud-sun"></i>Weather ID</label>
+                        <input type="text" id="weatherId" required>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button type="submit"><i class="fas fa-user-plus"></i>Submit Farmer Data</button>
+                </div>
+            </form>
+        </div>
+
+        <table id="farmersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Experience</th>
+                    <th>Weather</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const form = document.getElementById('farmerForm');
+        const tableBody = document.querySelector('#farmersTable tbody');
+        let editMode = false;
+        let currentEditId = null;
+
+        function findRowById(id) {
+            return Array.from(tableBody.rows).find(row => 
+                row.cells[0].textContent === id
+            );
+        }
+
+        function getWeatherIcon(weatherId) {
+            const icons = {
+                sunny: '☀️',
+                rainy: '🌧️',
+                cloudy: '☁️',
+                stormy: '⛈️'
+            };
+            return icons[weatherId.toLowerCase()] || '🌤️';
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const farmer = {
+                id: document.getElementById('farmerId').value,
+                name: document.getElementById('name').value,
+                road: document.getElementById('road').value,
+                house: document.getElementById('house').value,
+                district: document.getElementById('district').value,
+                area: document.getElementById('area').value,
+                country: document.getElementById('country').value,
+                experience: document.getElementById('experience').value,
+                weatherId: document.getElementById('weatherId').value
+            };
+
+            if (editMode) {
+                updateFarmer(currentEditId, farmer);
+            } else {
+                if (findRowById(farmer.id)) {
+                    alert('Farmer ID already exists!');
+                    return;
+                }
+                addFarmer(farmer);
+            }
+
+            form.reset();
+            editMode = false;
+            currentEditId = null;
+        });
+
+        function addFarmer(farmer) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${farmer.id}</td>
+                <td>${farmer.name}</td>
+                <td>${farmer.house}, ${farmer.road}, ${farmer.district}, ${farmer.area}, ${farmer.country}</td>
+                <td>${farmer.experience} years</td>
+                <td><span class="weather-icon">${getWeatherIcon(farmer.weatherId)}</span> ${farmer.weatherId}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="editFarmer('${farmer.id}')"><i class="fas fa-edit"></i>Edit</button>
+                        <button class="delete-btn" onclick="deleteFarmer('${farmer.id}')"><i class="fas fa-trash"></i>Delete</button>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+            updateStats();
+        }
+
+        function editFarmer(id) {
+            const row = findRowById(id);
+            if (!row) return;
+
+            const cells = row.cells;
+            document.getElementById('farmerId').value = cells[0].textContent;
+            document.getElementById('name').value = cells[1].textContent;
+            const addressParts = cells[2].textContent.split(', ');
+            document.getElementById('house').value = addressParts[0];
+            document.getElementById('road').value = addressParts[1];
+            document.getElementById('district').value = addressParts[2];
+            document.getElementById('area').value = addressParts[3];
+            document.getElementById('country').value = addressParts[4];
+            document.getElementById('experience').value = parseInt(cells[3].textContent);
+            document.getElementById('weatherId').value = cells[4].textContent.split(' ')[1];
+            
+            editMode = true;
+            currentEditId = id;
+        }
+
+        function updateFarmer(oldId, updatedFarmer) {
+            const row = findRowById(oldId);
+            if (!row) return;
+
+            row.innerHTML = `
+                <td>${updatedFarmer.id}</td>
+                <td>${updatedFarmer.name}</td>
+                <td>${updatedFarmer.house}, ${updatedFarmer.road}, ${updatedFarmer.district}, ${updatedFarmer.area}, ${updatedFarmer.country}</td>
+                <td>${updatedFarmer.experience} years</td>
+                <td><span class="weather-icon">${getWeatherIcon(updatedFarmer.weatherId)}</span> ${updatedFarmer.weatherId}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="editFarmer('${updatedFarmer.id}')"><i class="fas fa-edit"></i>Edit</button>
+                        <button class="delete-btn" onclick="deleteFarmer('${updatedFarmer.id}')"><i class="fas fa-trash"></i>Delete</button>
+                    </div>
+                </td>
+            `;
+            updateStats();
+        }
+
+        function deleteFarmer(id) {
+            const row = findRowById(id);
+            if (row) row.remove();
+            updateStats();
+        }
+
+        function updateStats() {
+            const farmers = document.querySelectorAll('#farmersTable tbody tr');
+            document.getElementById('totalFarmers').textContent = farmers.length;
+            
+            const experiences = [...farmers].map(tr => 
+                parseInt(tr.cells[3].textContent.replace(' years', ''))
+            );
+            const avg = experiences.reduce((a,b) => a + b, 0) / experiences.length || 0;
+            document.getElementById('avgExperience').textContent = avg.toFixed(1);
+        }
+    </script>
+</body>
+</html>
