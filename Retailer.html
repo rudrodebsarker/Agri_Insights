@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retailer Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)),
+                        url('https://images.unsplash.com/photo-1556740734-9f9ca6cbbb69?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section h1 {
+            color: white;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        .stats-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-left: 5px solid #3498db;
+        }
+
+        .stats-icon {
+            font-size: 28px;
+            background: #3498db;
+            color: white;
+            padding: 18px;
+            border-radius: 50%;
+        }
+
+        .form-container {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-btn {
+            background: #27ae60;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .decorative-icons {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 100px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <i class="fas fa-store decorative-icons icon-left"></i>
+            <h1>🛒 Retailer Management System</h1>
+            <i class="fas fa-shopping-basket decorative-icons icon-right"></i>
+        </div>
+
+        <div class="stats-card">
+            <i class="fas fa-chart-pie stats-icon"></i>
+            <div>
+                <h3>Retailer Statistics</h3>
+                <p>Total Retailers: <span id="totalRetailers">0</span></p>
+                <p>Active Cities: <span id="activeCities">0</span></p>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="retailerForm">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label><i class="fas fa-id-badge"></i>Retailer ID</label>
+                        <input type="text" id="retailerId" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-user-tie"></i>Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-phone"></i>Contact</label>
+                        <input type="tel" id="contact" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-road"></i>Road</label>
+                        <input type="text" id="road" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-globe"></i>Area</label>
+                        <input type="text" id="area" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-map-marked"></i>District</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-flag"></i>Country</label>
+                        <input type="text" id="country" required>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button type="submit"><i class="fas fa-store"></i>Submit Retailer Data</button>
+                </div>
+            </form>
+        </div>
+
+        <table id="retailersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const form = document.getElementById('retailerForm');
+        const tableBody = document.querySelector('#retailersTable tbody');
+        let editMode = false;
+        let currentEditId = null;
+
+        function findRowById(id) {
+            return Array.from(tableBody.rows).find(row => 
+                row.cells[0].textContent === id
+            );
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const retailer = {
+                id: document.getElementById('retailerId').value,
+                name: document.getElementById('name').value,
+                contact: document.getElementById('contact').value,
+                road: document.getElementById('road').value,
+                area: document.getElementById('area').value,
+                city: document.getElementById('city').value,
+                country: document.getElementById('country').value
+            };
+
+            if (editMode) {
+                updateRetailer(currentEditId, retailer);
+            } else {
+                if (findRowById(retailer.id)) {
+                    alert('Retailer ID already exists!');
+                    return;
+                }
+                addRetailer(retailer);
+            }
+
+            form.reset();
+            editMode = false;
+            currentEditId = null;
+        });
+
+        function addRetailer(retailer) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${retailer.id}</td>
+                <td>${retailer.name}</td>
+                <td>${retailer.contact}</td>
+                <td>${retailer.road}, ${retailer.area}, ${retailer.city}, ${retailer.country}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="editRetailer('${retailer.id}')"><i class="fas fa-edit"></i>Edit</button>
+                        <button class="delete-btn" onclick="deleteRetailer('${retailer.id}')"><i class="fas fa-trash"></i>Delete</button>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+            updateStats();
+        }
+
+        function editRetailer(id) {
+            const row = findRowById(id);
+            if (!row) return;
+
+            const cells = row.cells;
+            document.getElementById('retailerId').value = cells[0].textContent;
+            document.getElementById('name').value = cells[1].textContent;
+            document.getElementById('contact').value = cells[2].textContent;
+            const addressParts = cells[3].textContent.split(', ');
+            document.getElementById('road').value = addressParts[0];
+            document.getElementById('area').value = addressParts[1];
+            document.getElementById('city').value = addressParts[2];
+            document.getElementById('country').value = addressParts[3];
+            
+            editMode = true;
+            currentEditId = id;
+        }
+
+        function updateRetailer(oldId, updatedRetailer) {
+            const row = findRowById(oldId);
+            if (!row) return;
+
+            row.innerHTML = `
+                <td>${updatedRetailer.id}</td>
+                <td>${updatedRetailer.name}</td>
+                <td>${updatedRetailer.contact}</td>
+                <td>${updatedRetailer.road}, ${updatedRetailer.area}, ${updatedRetailer.city}, ${updatedRetailer.country}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="edit-btn" onclick="editRetailer('${updatedRetailer.id}')"><i class="fas fa-edit"></i>Edit</button>
+                        <button class="delete-btn" onclick="deleteRetailer('${updatedRetailer.id}')"><i class="fas fa-trash"></i>Delete</button>
+                    </div>
+                </td>
+            `;
+            updateStats();
+        }
+
+        function deleteRetailer(id) {
+            const row = findRowById(id);
+            if (row) row.remove();
+            updateStats();
+        }
+
+        function updateStats() {
+            const retailers = document.querySelectorAll('#retailersTable tbody tr');
+            const cities = new Set();
+            
+            retailers.forEach(tr => {
+                const city = tr.cells[3].textContent.split(', ')[2];
+                cities.add(city);
+            });
+            
+            document.getElementById('totalRetailers').textContent = retailers.length;
+            document.getElementById('activeCities').textContent = cities.size;
+        }
+    </script>
+</body>
+</html>
