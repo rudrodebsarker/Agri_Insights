@@ -1,0 +1,85 @@
+{
+    "bn":{
+        "start": {
+          "message": "হ্যালো কৃষক! আমি কীভাবে আপনাকে সাহায্য করতে পারি?",
+          "options": ["ফসল পরামর্শ", "পোকা নিয়ন্ত্রণ", "আবহাওয়া তথ্য", "ব্যক্তিগত পরামর্শ"]
+        },
+        "ফসল পরামর্শ": {
+          "message": "আপনি কোন ঋতুর জন্য পরিকল্পনা করছেন?",
+          "options": ["শীতকাল", "গ্রীষ্মকাল", "বর্ষাকাল"]
+        },
+        "শীতকাল": {
+          "message": "শীতকালের জন্য সুপারিশকৃত ফসল:\n- গম\n- সরিষা\n- আলু\n- টমেটো\n- ফুলকপি"
+        },
+        "গ্রীষ্মকাল": {
+          "message": "গ্রীষ্মকালের জন্য সুপারিশকৃত ফসল:\n- পাট\n- আউশ ধান\n- ভুট্টা\n- সবজি (যেমন ঢেঁড়স, করলা)"
+        },
+        "বর্ষাকাল": {
+          "message": "বর্ষাকালের জন্য সুপারিশকৃত ফসল:\n- আমন ধান\n- তিল\n- সবজি (যেমন বেগুন, মরিচ)"
+        },
+        "পোকা নিয়ন্ত্রণ": {
+          "message": "আপনি কোন পোকার সমস্যায় আছেন?",
+          "options": ["ব্রাউন প্ল্যান্টহপার", "স্টেম বোরার", "ফল ও শাখা বোরার", "অ্যাফিডস"]
+        },
+        "ব্রাউন প্ল্যান্টহপার": {
+          "message": "ব্রাউন প্ল্যান্টহপার নিয়ন্ত্রণের পদ্ধতি:\n- BRRI dhan47 এর মতো প্রতিরোধী ধান জাত ব্যবহার করুন\n- নিমভিত্তিক কীটনাশক প্রয়োগ করুন\n- অতিরিক্ত নাইট্রোজেন সার ব্যবহার এড়িয়ে চলুন"
+        },
+        "স্টেম বোরার": {
+          "message": "স্টেম বোরার নিয়ন্ত্রণের পদ্ধতি:\n- মথ পর্যবেক্ষণের জন্য লাইট ট্র্যাপ ব্যবহার করুন\n- জীবাণু নিয়ন্ত্রণের জন্য ট্রাইকোগ্রামা ওয়াস্প প্রয়োগ করুন\n- কার্টাপ হাইড্রোক্লোরাইডের মতো সুপারিশকৃত কীটনাশক ব্যবহার করুন"
+        },
+        "ফল ও শাখা বোরার": {
+          "message": "ফল ও শাখা বোরার নিয়ন্ত্রণের পদ্ধতি:\n- ফেরোমোন ট্র্যাপ ব্যবহার করুন\n- নিম তেলের স্প্রে প্রয়োগ করুন\n- Bt বেগুন জাত চাষ করুন"
+        },
+        "অ্যাফিডস": {
+          "message": "অ্যাফিডস নিয়ন্ত্রণের পদ্ধতি:\n- ইনসেক্টিসাইডাল সাবান বা নিম তেল স্প্রে করুন\n- লেডিবাগের মতো প্রাকৃতিক শিকারিদের উৎসাহিত করুন\n- আক্রান্ত গাছের অংশগুলি সরিয়ে ফেলুন"
+        },
+        "আবহাওয়া তথ্য": {
+          "message": "আজকের পূর্বাভাস: আংশিক মেঘলা রোদ।"
+        },
+        "ব্যক্তিগত পরামর্শ": {
+          "message": "অনুগ্রহ করে আপনার সমস্যাটি সংক্ষেপে বর্ণনা করুন, একজন বিশেষজ্ঞ আপনার সাথে যোগাযোগ করবেন।"
+        }
+    },
+    "en" : {
+        "start": {
+          "message": "Hello, Farmer! How can I assist you today?",
+          "options": ["Crop Suggestion", "Pest Control", "Weather Info", "Personalized Advice"]
+        },
+        "Crop Suggestion": {
+          "message": "Which season are you planning for?",
+          "options": ["Winter", "Summer", "Rainy"]
+        },
+        "Winter": {
+          "message": "Recommended crops for Winter:\n- Wheat\n- Mustard\n- Potato\n- Tomato\n- Cauliflower"
+        },
+        "Summer": {
+          "message": "Recommended crops for Summer:\n- Jute\n- Aus Rice\n- Maize\n- Vegetables (e.g., Okra, Bitter Gourd)"
+        },
+        "Rainy": {
+          "message": "Recommended crops for Rainy Season:\n- Aman Rice\n- Sesame\n- Vegetables (e.g., Brinjal, Chili)"
+        },
+        "Pest Control": {
+          "message": "Which pest are you dealing with?",
+          "options": ["Brown Planthopper", "Stem Borer", "Fruit and Shoot Borer", "Aphids"]
+        },
+        "Brown Planthopper": {
+          "message": "Control methods for Brown Planthopper:\n- Use resistant rice varieties like BRRI dhan47\n- Apply neem-based pesticides\n- Avoid excessive use of nitrogen fertilizers"
+        },
+        "Stem Borer": {
+          "message": "Control methods for Stem Borer:\n- Use light traps to monitor moth activity\n- Apply Trichogramma wasps as biological control\n- Use recommended insecticides like Cartap Hydrochloride"
+        },
+        "Fruit and Shoot Borer": {
+          "message": "Control methods for Fruit and Shoot Borer:\n- Use pheromone traps\n- Apply neem oil sprays\n- Cultivate Bt brinjal varieties"
+        },
+        "Aphids": {
+          "message": "Control methods for Aphids:\n- Spray insecticidal soap or neem oil\n- Encourage natural predators like ladybugs\n- Remove infested plant parts"
+        },
+        "Weather Info": {
+          "message": "Today's forecast: Sunny with scattered clouds."
+        },
+        "Personalized Advice": {
+          "message": "Please describe your issue briefly, and an expert will get back to you."
+        }
+    }
+      
+}
