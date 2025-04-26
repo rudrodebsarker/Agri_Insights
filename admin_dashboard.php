@@ -60,7 +60,7 @@
         <li class="dropdown">
             <a href="#">Sales & Market Price</a>
             <ul class="dropdown-menu">
-              <li><a href="sale_information.php">Sale Info</a></li>
+              <li><a href="sale_information.html">Sale Info</a></li>
               <li><a href="price_trends.html">Price Trends</a></li>
               <li><a href="demand_elasticity_01/demand_elasticity.html">Demand & Price Elasticity</a></li>
               
