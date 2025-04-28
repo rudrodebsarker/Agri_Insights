@@ -50,6 +50,14 @@
       <img style="width: 100px ; height:80px;  border-radius:50%" class="logo-img" src="images/pic2.png" alt="Logo">
       <a href="#" class="logo">AgriInsights</a>
       <ul class="nav-links">
+      <li class="dropdown">
+          <a href="#">Admin Pannel</a>
+          <ul class="dropdown-menu">
+            <li><a href="weather.php">Weather Data Input</a></li>
+            <li><a href="production_form.php">Agriofficer's Recomendation</a></li> 
+          </ul>
+        </li>
+
         <li class="dropdown">
           <a href="#">Product</a>
           <ul class="dropdown-menu">
@@ -60,9 +68,9 @@
         <li class="dropdown">
             <a href="#">Sales & Market Price</a>
             <ul class="dropdown-menu">
-              <li><a href="sale_information.php">Sale Info</a></li>
+              <li><a href="sale.php">Sale Info</a></li>
               <li><a href="price_trends.html">Price Trends</a></li>
-              <li><a href="demand_elasticity_01/demand_elasticity.html">Demand & Price Elasticity</a></li>
+              <li><a href="demand_elasticity.html">Demand & Price Elasticity</a></li>
               
             </ul>
         </li>
@@ -86,8 +94,7 @@
               <li><a href="logistics.php">Logistics Tracking</a></li>
             </ul>
         </li>
-         <li><a href="Farmer_Agri_Officer.html">Agri_officer</a></li>
-        <li><a href="">Recommendations</a></li>
+         <li><a href="agriOficers_List.php">Agri_officer</a></li>
         <li id="Logout"><a href="index.php?logout='1'">Logout</a></li>
       </ul>
     </div>

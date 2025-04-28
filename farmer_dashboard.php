@@ -231,7 +231,7 @@ canvas {
         <li><button onclick="window.location.href='agriProduct_list.php'">Crop Information</button></li>
         <li><button onclick="window.location.href='production_form.php'">Production Data</button></li>
         <li><button onclick="window.location.href='product_shipment_details.php'">Shipment Agri_Product </button></li>
-        <li><button onclick="window.location.href='weather.php'">Weather Info</button></li>
+        <li><button onclick="window.location.href='weather_Table.php'">weather Info</button></li>
         <li><button onclick="window.location.href='index.php?logout=1'">Logout</button></li>
       </ul>
     </div>
