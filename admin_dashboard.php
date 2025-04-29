@@ -58,11 +58,12 @@
           </ul>
         </li>
 
+
         <li class="dropdown">
           <a href="#">Product</a>
           <ul class="dropdown-menu">
             <li><a href="agriProduct_list.php">Agri-Product Info</a></li>
-            <li><a href="production_form.php">Production Info</a></li> 
+            <li><a href="production_list.php">Production Info</a></li> 
           </ul>
         </li>
         <li class="dropdown">
