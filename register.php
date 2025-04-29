@@ -1,4 +1,8 @@
-<?php include('server.php') ?>
+<?php
+session_start(); // Start the session
+include('server.php'); // Include the server.php file for database connection and registration logic
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,6 +88,24 @@
       margin-bottom: 20px;
     }
   </style>
+  <script>
+    // Display success message as a pop-up when registration is successful
+    <?php if (isset($_SESSION['success'])): ?>
+        window.onload = function() {
+            alert("<?php echo $_SESSION['success']; ?>"); // Show the success message
+            window.location.href = 'login.php'; // Redirect to the login page after the alert
+        };
+        <?php unset($_SESSION['success']); ?> // Clear the success message from the session
+    <?php endif; ?>
+
+    // Display error message if any
+    <?php if (isset($_SESSION['error'])): ?>
+        window.onload = function() {
+            alert("<?php echo $_SESSION['error']; ?>"); // Show the error message
+        };
+        <?php unset($_SESSION['error']); ?> // Clear the error message from the session
+    <?php endif; ?>
+  </script>
 </head>
 <body>
   <div class="header">
@@ -91,22 +113,21 @@
   </div>
   
   <form method="post" action="register.php">
-    <?php include('errors.php'); ?>
     <div class="input-group">
       <label>Username</label>
-      <input type="text" name="username" value="<?php echo $username; ?>">
+      <input type="text" name="username" required>
     </div>
     <div class="input-group">
       <label>Email</label>
-      <input type="email" name="email" value="<?php echo $email; ?>">
+      <input type="email" name="email" required>
     </div>
     <div class="input-group">
       <label>Password</label>
-      <input type="password" name="password_1">
+      <input type="password" name="password_1" required>
     </div>
     <div class="input-group">
       <label>Confirm password</label>
-      <input type="password" name="password_2">
+      <input type="password" name="password_2" required>
     </div>
 
     <!-- User Type Selection -->
@@ -119,7 +140,7 @@
         <option value="Retailer">Retailer</option>
         <option value="Wholesaler">Wholesaler</option>
         <option value="Consumer">Consumer</option>
-        <option value="Warehouse_manager">Warehouse_manager</option>
+        <option value="Warehouse_manager">Warehouse Manager</option>
       </select>
     </div>
 
