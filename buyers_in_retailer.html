@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buyers List</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+
+    .container-box {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-top: 20px;
+    }
+
+    .btn-success {
+      font-weight: 600;
+    }
+
+    .table thead {
+      background-color: #e2e8f0;
+    }
+
+    h3 {
+      font-weight: bold;
+      color: #1f2937;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Buyers List</h3>
+    <a href="retailer_dashboard.html" class="btn btn-success">← Back to Dashboard</a>
+  </div>
+
+  <!-- Table Section -->
+  <div class="container-box">
+    <table class="table table-bordered table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Sale ID</th>
+          <th>Consumer ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="buyersTableBody">
+        <!-- Dynamic content will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- JavaScript Section -->
+<script>
+  // Sample buyers list (you can replace this with real data from server later)
+  const buyers = [
+    { saleId: 'S001', consumerId: 'C001', name: 'John Doe', contact: '1234567890', email: 'john@example.com' },
+    { saleId: 'S002', consumerId: 'C002', name: 'Jane Smith', contact: '9876543210', email: 'jane@example.com' },
+    { saleId: 'S003', consumerId: 'C003', name: 'Michael Brown', contact: '5556667777', email: 'michael@example.com' }
+  ];
+
+  const tableBody = document.getElementById('buyersTableBody');
+
+  // Function to load buyers into the table
+  function loadBuyers() {
+    buyers.forEach(buyer => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${buyer.saleId}</td>
+        <td>${buyer.consumerId}</td>
+        <td>${buyer.name}</td>
+        <td>${buyer.contact}</td>
+        <td>${buyer.email}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  // Load buyers when page loads
+  window.onload = loadBuyers;
+</script>
+
+</body>
+</html>

@@ -1,3 +1,4 @@
+<!-- wholesale_dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wholesaler Dashboard</title>
   <style>
+    /* Previous CSS remains unchanged */
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -90,15 +92,16 @@
 <body>
   <div class="sidebar">
     <h2>Wholesaler</h2>
-    <a href="wholesale_dashboard.html">Dashboard</a>
-    <a href="update_profile.html">Update Profile</a>
+    <a href="wholesaler_dashboard.html">Dashboard</a>
+    <a href="update_wholesaler_profile.html">Update Profile</a>
     <a href="inventory.html">Inventory</a>
     
+    <!-- Products Dropdown -->
     <div class="dropdown" onclick="toggleProductsDropdown()">
       <a>Products ▾</a>
       <div class="dropdown-content" id="productsDropdown">
-        <a href="received_products.html">Received Products</a>
-        <a href="available_products.html">Available Products</a>
+        <a href="received_products_from_farmer.html">Received Products</a>
+        <a href="available_products_to_wholesaler.html">Available Products</a>
       </div>
     </div>
 
@@ -108,8 +111,8 @@
     <div class="dropdown" onclick="toggleDropdown()">
       <a>Buyer and Seller ▾</a>
       <div class="dropdown-content" id="analyticsDropdown">
-        <a href="buyer_info.html">Buyer Info</a>
-        <a href="seller_info.html">Seller Info</a>
+        <a href="buyer_info_in_wholesaler.html">Buyer Info</a>
+        <a href="seller_info_in_wholesaler.html">Seller Info</a>
       </div>
     </div>
 
@@ -123,16 +126,18 @@
       <p><strong>Wholesaler ID:</strong> W001</p>
       <p><strong>Name:</strong> AgroChain Wholesale</p>
       <p><strong>Contact:</strong> +1122334455</p>
-      <p><strong>Location:</strong> Road 7, Area B, CityX, CountryY</p>
+      <p><strong>Location:</strong> Road, House, Area , District, Country</p>
     </div>
   </div>
 
   <script>
+    // New function for products dropdown
     function toggleProductsDropdown() {
       const dropdown = document.getElementById("productsDropdown");
       dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
     }
 
+    // Existing function for buyer/seller dropdown
     function toggleDropdown() {
       const dropdown = document.getElementById("analyticsDropdown");
       dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";

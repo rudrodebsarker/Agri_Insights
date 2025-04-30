@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Sales</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+
+    .container-box {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-top: 20px;
+    }
+
+    .btn-success {
+      font-weight: 600;
+    }
+
+    .table thead {
+      background-color: #e2e8f0;
+    }
+
+    h3 {
+      font-weight: bold;
+      color: #1f2937;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3>Track Sales</h3>
+      <a href="wholesaler_dashboard.html" class="btn btn-success">← Back to Dashboard</a>
+    </div>
+
+    <!-- Table Section -->
+    <div class="container-box">
+      <table class="table table-bordered table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Unit Cost</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Wholeseller ID</th>
+            <th>Retailer ID</th>
+          </tr>
+        </thead>
+        <tbody id="salesTableBody">
+          <!-- Dynamic sales data will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- JavaScript Section -->
+  <script>
+    // Example sales data (replace with real backend data later)
+    const salesData = [
+      { productId: 'P101', unitCost: '30', quantity: '50', date: '2025-04-25', wholesellId: 'WH001', retailerId: 'RT001' },
+      { productId: 'P102', unitCost: '45', quantity: '80', date: '2025-04-26', wholesellId: 'WH002', retailerId: 'RT002' },
+      { productId: 'P103', unitCost: '20', quantity: '120', date: '2025-04-27', wholesellId: 'WH003', retailerId: 'RT003' }
+    ];
+
+    const tableBody = document.getElementById('salesTableBody');
+
+    // Function to load sales into the table
+    function loadSales() {
+      salesData.forEach(sale => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${sale.productId}</td>
+          <td>${sale.unitCost}</td>
+          <td>${sale.quantity}</td>
+          <td>${sale.date}</td>
+          <td>${sale.wholesellId}</td>
+          <td>${sale.retailerId}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Load sales when page loads
+    window.onload = loadSales;
+  </script>
+
+</body>
+</html>
