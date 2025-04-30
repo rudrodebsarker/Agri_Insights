@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wholesaler - Update Profile</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <style>
+    body {
+      background-color: #f8fbfd;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .container-box {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-top: 30px;
+    }
+    .form-section {
+      margin-bottom: 30px;
+    }
+    .form-label {
+      font-weight: 600;
+    }
+    .btn-primary {
+      padding: 8px 20px;
+    }
+    .btn-success {
+      font-weight: 600;
+    }
+    .action-btn {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <h3 class="mb-4">Update Wholesaler Profile</h3>
+
+  <!-- Input Form -->
+  <div class="container-box">
+    <div class="row g-3 form-section">
+      <div class="col-md-4">
+        <label class="form-label">Wholesaler ID</label>
+        <input type="text" class="form-control" id="wholesalerId" placeholder="Enter Wholesaler ID">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" id="wholesalerName" placeholder="Enter Name">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Contact</label>
+        <input type="text" class="form-control" id="wholesalerContact" placeholder="Enter Contact">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Road</label>
+        <input type="text" class="form-control" id="road" placeholder="Enter Road">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">House</label>
+        <input type="text" class="form-control" id="house" placeholder="Enter House">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Area</label>
+        <input type="text" class="form-control" id="area" placeholder="Enter Area">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">District</label>
+        <input type="text" class="form-control" id="district" placeholder="Enter District">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" placeholder="Enter Country">
+      </div>
+      <div class="col-md-4 d-flex align-items-end">
+        <button class="btn btn-primary w-100" onclick="addWholesaler()">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="container-box mt-4">
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Wholesaler ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Road</th>
+          <th>House</th>
+          <th>Area</th>
+          <th>District</th>
+          <th>Country</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="wholesalerTableBody">
+        <!-- JavaScript rows will be inserted here -->
+      </tbody>
+    </table>
+    <button class="btn btn-success mt-2" onclick="goBack()">Back to Dashboard</button>
+  </div>
+</div>
+
+<script>
+  function addWholesaler() {
+    const id = document.getElementById('wholesalerId').value;
+    const name = document.getElementById('wholesalerName').value;
+    const contact = document.getElementById('wholesalerContact').value;
+    const road = document.getElementById('road').value;
+    const house = document.getElementById('house').value;
+    const area = document.getElementById('area').value;
+    const district = document.getElementById('district').value;
+    const country = document.getElementById('country').value;
+
+    if (!id || !name || !contact) {
+      alert("Please fill in required fields.");
+      return;
+    }
+
+    const table = document.getElementById('wholesalerTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `
+      <td>${id}</td>
+      <td>${name}</td>
+      <td>${contact}</td>
+      <td>${road}</td>
+      <td>${house}</td>
+      <td>${area}</td>
+      <td>${district}</td>
+      <td>${country}</td>
+      <td>
+        <button class="btn btn-sm btn-warning action-btn" onclick="editRow(this)">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteRow(this)">Delete</button>
+      </td>
+    `;
+
+    document.querySelectorAll('.form-control').forEach(input => input.value = '');
+  }
+
+  function editRow(button) {
+    const row = button.parentElement.parentElement;
+    const cells = row.querySelectorAll('td');
+    document.getElementById('wholesalerId').value = cells[0].innerText;
+    document.getElementById('wholesalerName').value = cells[1].innerText;
+    document.getElementById('wholesalerContact').value = cells[2].innerText;
+    document.getElementById('road').value = cells[3].innerText;
+    document.getElementById('house').value = cells[4].innerText;
+    document.getElementById('area').value = cells[5].innerText;
+    document.getElementById('district').value = cells[6].innerText;
+    document.getElementById('country').value = cells[7].innerText;
+
+    row.remove();
+  }
+
+  function deleteRow(button) {
+    const row = button.parentElement.parentElement;
+    row.remove();
+  }
+
+  function goBack() {
+    window.location.href = 'wholesaler_dashboard.html';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Agri Traders</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f1f5f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    .container-box {
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-top: 20px;
+    }
+    .form-label {
+      font-weight: 600;
+    }
+    .btn-primary {
+      padding: 8px 20px;
+    }
+    .btn-success {
+      font-weight: 600;
+    }
+    .action-btn {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Track Agri Traders</h3>
+    <a href="Home.html" class="btn btn-success">← Back to Dashboard</a>
+  </div>
+
+  <!-- Input Form -->
+  <div class="container-box">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">Product ID</label>
+        <select class="form-select" id="product_id">
+          <option selected disabled>Select Product ID</option>
+          <option>PRD001</option>
+          <option>PRD002</option>
+          <option>PRD003</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Wholeseller ID</label>
+        <select class="form-select" id="wholesell_id">
+          <option selected disabled>Select Wholeseller ID</option>
+          <option>WH001</option>
+          <option>WH002</option>
+          <option>WH003</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Retailer ID</label>
+        <select class="form-select" id="retailer_id">
+          <option selected disabled>Select Retailer ID</option>
+          <option>RT001</option>
+          <option>RT002</option>
+          <option>RT003</option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Unit Cost</label>
+        <input type="text" id="unit_cost" class="form-control" placeholder="Enter Unit Cost">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Quantity</label>
+        <input type="text" id="quantity" class="form-control" placeholder="Enter Quantity">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Date</label>
+        <input type="date" id="date" class="form-control">
+      </div>
+
+      <div class="col-md-12 d-flex justify-content-end">
+        <button class="btn btn-primary" onclick="addRecord()">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="container-box mt-4">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Product ID</th>
+          <th>Unit Cost</th>
+          <th>Quantity</th>
+          <th>Date</th>
+          <th>Wholeseller ID</th>
+          <th>Retailer ID</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="recordTableBody">
+        <!-- Dynamic rows here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function addRecord() {
+    const product_id = document.getElementById('product_id').value;
+    const wholesell_id = document.getElementById('wholesell_id').value;
+    const retailer_id = document.getElementById('retailer_id').value;
+    const unit_cost = document.getElementById('unit_cost').value;
+    const quantity = document.getElementById('quantity').value;
+    const date = document.getElementById('date').value;
+
+    if (!product_id || !wholesell_id || !retailer_id || !unit_cost || !quantity || !date) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const table = document.getElementById('recordTableBody');
+    const row = table.insertRow();
+    row.innerHTML = `
+      <td>${product_id}</td>
+      <td>${unit_cost}</td>
+      <td>${quantity}</td>
+      <td>${date}</td>
+      <td>${wholesell_id}</td>
+      <td>${retailer_id}</td>
+      <td>
+        <button class="btn btn-warning btn-sm action-btn" onclick="editRow(this)">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteRow(this)">Delete</button>
+      </td>
+    `;
+
+    // Clear form
+    document.querySelectorAll('select, input').forEach(input => input.value = '');
+  }
+
+  function editRow(button) {
+    const row = button.parentElement.parentElement;
+    const cells = row.querySelectorAll('td');
+
+    document.getElementById('product_id').value = cells[0].innerText;
+    document.getElementById('unit_cost').value = cells[1].innerText;
+    document.getElementById('quantity').value = cells[2].innerText;
+    document.getElementById('date').value = cells[3].innerText;
+    document.getElementById('wholesell_id').value = cells[4].innerText;
+    document.getElementById('retailer_id').value = cells[5].innerText;
+
+    row.remove();
+  }
+
+  function deleteRow(button) {
+    if (confirm('Are you sure you want to delete this entry?')) {
+      button.closest('tr').remove();
+    }
+  }
+</script>
+
+</body>
+</html>
