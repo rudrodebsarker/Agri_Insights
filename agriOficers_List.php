@@ -7,11 +7,13 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Fetch agri officer data with their contacts
+// Fetch agri officer data with their contacts and varieties
 $sql = "SELECT ao.officer_id, ao.name, ao.email, ao.road, ao.area, ao.district, ao.country,
-               GROUP_CONCAT(aoc.contact SEPARATOR ', ') AS contacts
+               GROUP_CONCAT(aoc.contact SEPARATOR ', ') AS contacts,
+               GROUP_CONCAT(apv.variety SEPARATOR ', ') AS varieties
         FROM agri_officer ao
         LEFT JOIN agri_officer_contact aoc ON ao.officer_id = aoc.officer_id
+        LEFT JOIN agri_product_variety apv ON ao.officer_id = apv.product_id
         GROUP BY ao.officer_id";
 
 $result = mysqli_query($conn, $sql);
@@ -81,6 +83,7 @@ $result = mysqli_query($conn, $sql);
           <th>District</th>
           <th>Country</th>
           <th>Contact Numbers</th>
+          <th>Varieties</th>
         </tr>
       </thead>
       <tbody>
@@ -96,10 +99,11 @@ $result = mysqli_query($conn, $sql);
                 echo "<td>" . htmlspecialchars($row['district']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['country']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['contacts']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['varieties']) . "</td>";
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='8' style='text-align:center;'>No Officers Found</td></tr>";
+            echo "<tr><td colspan='9' style='text-align:center;'>No Officers Found</td></tr>";
         }
         ?>
       </tbody>
