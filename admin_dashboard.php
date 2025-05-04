@@ -70,8 +70,8 @@
         <li class="dropdown">
             <a href="#">Sales & Market Price</a>
             <ul class="dropdown-menu">
-              <li><a href="sale.php">Sale Info</a></li>
-              <li><a href="price_trends.html">Price Trends</a></li>
+              <li><a href="sale_information.php">Sale Info</a></li>
+              <li><a href="price_trends.php">Price Trends</a></li>
               <li><a href="track_agri_traders.php"></a>Track Agri_traders</li>
               <li><a href="cd_pe.php">Demand & Price Elasticity</a></li>
               
