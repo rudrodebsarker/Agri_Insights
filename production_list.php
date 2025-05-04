@@ -175,10 +175,11 @@ if ($result === FALSE) {
 
         <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
-            <td><?php echo $row['production_id']; ?></td> <!-- Display Production ID -->
+            <td><?php echo $row['production_id']; ?></td>
+            <td><?php echo $row['product_name']; ?></td> <!-- Display Product Name -->
             <td><?php echo $row['product_id']; ?></td>
             <td><?php echo $row['farmer_id']; ?></td>
-            <td><?php echo $row['farmer_name']; ?></td> <!-- Display farmer name -->
+            <td><?php echo $row['farmer_name']; ?></td>
             <td><?php echo $row['yield']; ?></td>
             <td><?php echo $row['acreage']; ?></td>
             <td><?php echo $row['cost']; ?></td>
@@ -187,6 +188,7 @@ if ($result === FALSE) {
             <td><?php echo $row['harvesting_date']; ?></td>
             <td><?php echo $row['data_input_date']; ?></td>
             <td>
+
                 <!-- Edit Button -->
                 <a href="productionData_edit.php?id=<?php echo $row['production_id']; ?>">Edit</a>
                 <!-- Delete Button -->
