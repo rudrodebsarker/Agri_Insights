@@ -95,7 +95,7 @@ mysqli_close($db);
       <label for="search_id">Search by Product ID:</label>
       <input type="text" id="search_id" name="search_id" placeholder="Enter Product ID" required>
       <button type="submit" class="btn">Search</button>
-      <a href="view_products.php"><button type="button" class="btn btn-back">Reset</button></a>
+     
     </form>
 
     <?php if (count($products) > 0): ?>
