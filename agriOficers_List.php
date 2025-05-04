@@ -1,22 +1,33 @@
 <?php
-// Connect to the database
+
 $conn = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-// Check the connection
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Fetch agri officer data with their contacts and varieties
-$sql = "SELECT ao.officer_id, ao.name, ao.email, ao.road, ao.area, ao.district, ao.country,
-               GROUP_CONCAT(aoc.contact SEPARATOR ', ') AS contacts,
-               GROUP_CONCAT(apv.variety SEPARATOR ', ') AS varieties
-        FROM agri_officer ao
-        LEFT JOIN agri_officer_contact aoc ON ao.officer_id = aoc.officer_id
-        LEFT JOIN agri_product_variety apv ON ao.officer_id = apv.product_id
-        GROUP BY ao.officer_id";
 
-$result = mysqli_query($conn, $sql);
+if (isset($_GET['search_id']) && $_GET['search_id'] !== '') {
+    $search_id = mysqli_real_escape_string($conn, $_GET['search_id']);
+    
+    // Fetch officer data based on the provided officer ID
+    $query = "SELECT ao.officer_id, ao.name, ao.email, ao.road, ao.area, ao.district, ao.country,
+                     GROUP_CONCAT(aoc.contact SEPARATOR ', ') AS contacts
+              FROM agri_officer ao
+              LEFT JOIN agri_officer_contact aoc ON ao.officer_id = aoc.officer_id
+              WHERE ao.officer_id = '$search_id'
+              GROUP BY ao.officer_id";
+} else {
+    // Fetch all officers with their contact details
+    $query = "SELECT ao.officer_id, ao.name, ao.email, ao.road, ao.area, ao.district, ao.country,
+                     GROUP_CONCAT(aoc.contact SEPARATOR ', ') AS contacts
+              FROM agri_officer ao
+              LEFT JOIN agri_officer_contact aoc ON ao.officer_id = aoc.officer_id
+              GROUP BY ao.officer_id";
+}
+
+$result = mysqli_query($conn, $query);
 
 // Close the connection later after HTML
 ?>
@@ -64,12 +75,35 @@ $result = mysqli_query($conn, $sql);
       margin-top: 30px;
       overflow-x: auto;
     }
+    .search-form {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .search-form input {
+      padding: 8px;
+      margin-right: 10px;
+      width: 200px;
+    }
+    .no-result {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
 
   <h1>Agri Officer List</h1>
+
+  <!-- Search Form -->
+  <form method="GET" action="" class="search-form">
+    <label for="search_id">Search by Officer ID:</label>
+    <input type="text" id="search_id" name="search_id" placeholder="Enter Officer ID" required>
+    <button type="submit" class="btn">Search</button>
+  </form>
 
   <div class="table-container">
     <table>
@@ -83,7 +117,7 @@ $result = mysqli_query($conn, $sql);
           <th>District</th>
           <th>Country</th>
           <th>Contact Numbers</th>
-          <th>Varieties</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -99,11 +133,14 @@ $result = mysqli_query($conn, $sql);
                 echo "<td>" . htmlspecialchars($row['district']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['country']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['contacts']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['varieties']) . "</td>";
+                echo "<td>
+                        <a href='edit_officer.php?edit_id=" . $row['officer_id'] . "'>Edit</a> | 
+                        <a href='?delete_id=" . $row['officer_id'] . "' onclick='return confirm(\"Are you sure you want to delete?\")'>Delete</a>
+                      </td>";
                 echo "</tr>";
             }
         } else {
-            echo "<tr><td colspan='9' style='text-align:center;'>No Officers Found</td></tr>";
+            echo "<tr><td colspan='9' class='no-result'>No Officers Found</td></tr>";
         }
         ?>
       </tbody>
