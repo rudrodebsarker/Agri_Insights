@@ -117,19 +117,20 @@ if ($result === FALSE) {
         }
 
 
-        /* Styling for the back button */
+           /* Styling for the back button */
         .back-button {
-            background-color: #2980b9;
-            color: white;
-            padding: 10px 20px;
-            border: none;
+            padding: 8px 16px;
             border-radius: 5px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
             cursor: pointer;
-            font-size: 16px;
+            margin-top: 20px;
             text-decoration: none;
             display: inline-block;
-            margin-top: 20px;
         }
+
+
 
         .back-button:hover {
             background-color: #1d6a8b;
