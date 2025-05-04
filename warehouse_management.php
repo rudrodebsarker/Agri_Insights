@@ -280,3 +280,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
             ?>
         </tbody>
     </table>
+<!-- Edit form -->
+    <?php
+    if (isset($_GET['edit_id'])) {
+        $edit_id = $_GET['edit_id'];
+        $sql = "SELECT * FROM WAREHOUSE WHERE warehouse_id='$edit_id'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+    ?>
+        <div id="editForm" class="form-container scrollToForm">
+            <h2>Edit Warehouse Information</h2>
+            <form method="POST" action="warehouse_management.php">
+                <input type="hidden" name="warehouse_id" value="<?php echo $row['warehouse_id']; ?>">
+
+                <label for="name">Warehouse Name:</label>
+                <input type="text" id="name" name="name" value="<?php echo $row['name']; ?>" required><br>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" value="<?php echo $row['location']; ?>" required><br>
+
+                <label for="contact_num">Contact Number:</label>
+                <input type="text" id="contact_num" name="contact_num" value="<?php echo $row['contact_num']; ?>" required><br>
+
+                <label for="available_stock_of_product">Available Stock:</label>
+                <input type="number" id="available_stock_of_product" name="available_stock_of_product" value="<?php echo $row['available_stock_of_product']; ?>" required><br>
+
+                <label for="last_updated">Last Updated:</label>
+                <input type="date" id="last_updated" name="last_updated" value="<?php echo $row['last_updated']; ?>" required><br>
+
+                <button type="submit" name="edit">Save Changes</button>
+            </form>
+        </div>
+    <?php } ?>
+</div>
+
+</body>
+</html>
+
+<?php
+$conn->close();
+?>
