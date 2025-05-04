@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start the session
 include('server.php'); // Include the server.php file for database connection and registration logic
 ?>
 
