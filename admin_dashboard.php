@@ -54,6 +54,7 @@
           <a href="#">Admin Pannel</a>
           <ul class="dropdown-menu">
             <li><a href="weather.php">Weather Data Input</a></li>
+            
             <li><a href="production_form.php">Agriofficer's Recomendation</a></li> 
           </ul>
         </li>
@@ -71,8 +72,11 @@
             <ul class="dropdown-menu">
               <li><a href="sale.php">Sale Info</a></li>
               <li><a href="price_trends.html">Price Trends</a></li>
-              <li><a href="demand_elasticity.html">Demand & Price Elasticity</a></li>
+              <li><a href="track_agri_traders.php"></a>Track Agri_traders</li>
+              <li><a href="cd_pe.php">Demand & Price Elasticity</a></li>
               
+
+              track_agri_traders.php
             </ul>
         </li>
         <li class="dropdown">
