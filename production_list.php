@@ -132,12 +132,13 @@ if ($result === FALSE) {
 
 
 
-        .back-button:hover {
-            background-color: #1d6a8b;
+          .back-button:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
 <body>
+
 
 <div class="form-container">
     <h2>Production Data List</h2>
