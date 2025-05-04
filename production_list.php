@@ -143,6 +143,18 @@ if ($result === FALSE) {
 <div class="form-container">
     <h2>Production Data List</h2>
 
+    <!-- Search and Add Production Buttons -->
+    <div class="button-container">
+        <form method="get" action="">
+            <input type="text" name="search" class="search-input" placeholder="Search by Production ID" value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit" class="button">Search</button>
+        </form>
+        <!-- Add Production Data Button as a button element -->
+        <form action="production_form.php" method="get">
+            <button type="submit" class="button">Add Production Data</button>
+        </form>
+    </div>
+
     <table>
         <tr>
             <th>Production ID</th> <!-- Added Production ID column -->
