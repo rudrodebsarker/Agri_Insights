@@ -155,12 +155,13 @@ if ($result === FALSE) {
         </form>
     </div>
 
-    <table>
+     <table>
         <tr>
-            <th>Production ID</th> <!-- Added Production ID column -->
+            <th>Production ID</th>
+            <th>Product Name</th> <!-- Added Product Name column -->
             <th>Product ID</th>
             <th>Farmer ID</th>
-            <th>Farmer Name</th> <!-- Show farmer name instead of ID -->
+            <th>Farmer Name</th>
             <th>Yield</th>
             <th>Acreage</th>
             <th>Cost</th>
@@ -170,6 +171,7 @@ if ($result === FALSE) {
             <th>Data Input Date</th>
             <th>Actions</th>
         </tr>
+
 
         <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
