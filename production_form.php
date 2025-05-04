@@ -43,7 +43,7 @@ $product_result = mysqli_query($conn, $product_query);
             padding: 30px 40px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 600px;
+            width: 700px;
             height: auto;
             max-height: 80vh;
             overflow-y: auto;
@@ -62,10 +62,20 @@ $product_result = mysqli_query($conn, $product_query);
             margin-bottom: 5px;
         }
 
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-field {
+            flex: 1 1 calc(50% - 20px);
+            min-width: 220px;
+        }
+
         input[type="text"],
         input[type="number"],
         input[type="date"],
-        input[type="submit"],
         select {
             width: 100%;
             padding: 10px;
@@ -75,20 +85,8 @@ $product_result = mysqli_query($conn, $product_query);
             font-size: 16px;
         }
 
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .back-button, .view-button {
+        input[type="submit"],
+        .view-button {
             background-color: #5283e4;
             border: 1px solid #ccc;
             padding: 10px 20px;
@@ -97,11 +95,20 @@ $product_result = mysqli_query($conn, $product_query);
             border-radius: 8px;
         }
 
-        .back-button:hover, .view-button:hover {
+        input[type="submit"]:hover,
+        .view-button:hover {
             background-color: #ddd;
+        }
+
+        /* For mobile responsiveness */
+        @media (max-width: 768px) {
+            .form-field {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="form-container">
         <h2>Enter Production Data</h2>
