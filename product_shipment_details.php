@@ -8,15 +8,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $quantity_shipped = $_POST['quantity_shipped'];
     $product_total_cost = $_POST['product_total_cost'];
 
-   
-    // echo "Shipment ID: $shipment_id, Product ID: $product_id, Quantity Shipped: $quantity_shipped, Cost: $product_total_cost"; exit;
-
-    // Insert into SHIPMENT_AGRI_PRODUCT table
     $sql = "INSERT INTO SHIPMENT_AGRI_PRODUCT (shipment_id, product_id, quantity_shipped, cost) 
             VALUES ('$shipment_id', '$product_id', '$quantity_shipped', '$product_total_cost')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Product shipment details added successfully.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Handle editing the data
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
+    $shipment_id = $_POST['shipment_id'];
+    $product_id = $_POST['product_id'];
+    $quantity_shipped = $_POST['quantity_shipped'];
+    $product_total_cost = $_POST['product_total_cost'];
+
+    $sql = "UPDATE SHIPMENT_AGRI_PRODUCT 
+            SET quantity_shipped='$quantity_shipped', cost='$product_total_cost' 
+            WHERE shipment_id='$shipment_id' AND product_id='$product_id'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Product shipment details updated successfully.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+// Handle deleting the data
+if (isset($_GET['delete_id'])) {
+    $delete_id = $_GET['delete_id'];
+
+    $sql = "DELETE FROM SHIPMENT_AGRI_PRODUCT WHERE shipment_id='$delete_id'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Record deleted successfully.";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -30,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Shipment Details</title>
     <style>
-        /* General body styles */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f5f7fa;
@@ -58,7 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             max-width: 1000px;
         }
 
-        /* Form container styling */
         .form-container {
             background-color: #ffffff;
             padding: 30px;
@@ -100,7 +125,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             background-color: #1d6a8b;
         }
 
-        /* Table styling */
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #1d6a8b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        .back-btn:hover {
+            background-color: #2980b9;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -126,40 +167,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             background-color: #f1f1f1;
         }
 
-        /* Back button styling */
-        .back-btn {
-            padding: 10px 20px;
-            background-color: #1d6a8b;
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            background-color: #f39c12;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 20px;
         }
 
-        .back-btn:hover {
-            background-color: #2980b9;
+        .edit-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Back Button -->
-    <a href="dashboard.php" class="back-btn">Back to Dashboard</a>
+    <a href="shipment.php" class="back-btn">Back to Shipment Page</a>
 
     <h1>Product Shipment Details</h1>
 
-    <!-- Product Shipment Form -->
     <div class="form-container">
         <form method="POST" action="product_shipment_details.php">
             <label for="shipment_id">Shipment ID:</label>
             <select id="shipment_id" name="shipment_id" required>
                 <?php
-                // Fetch shipment IDs from the SHIPMENT table
                 $sql = "SELECT shipment_id FROM SHIPMENT";
                 $result = $conn->query($sql);
 
@@ -172,12 +213,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             <label for="product_id">Product ID:</label>
             <select id="product_id" name="product_id" required>
                 <?php
-                // Fetch product IDs from the agri_product table (displaying product_id)
-                $sql = "SELECT product_id, name FROM agri_product"; // Updated to fetch from agri_product
+                $sql = "SELECT product_id, name FROM agri_product";
                 $result = $conn->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                    echo "<option value='" . $row['product_id'] . "'>" . $row['product_id'] . "</option>";  // Display Product ID instead of name
+                    echo "<option value='" . $row['product_id'] . "'>" . $row['product_id'] . "</option>";
                 }
                 ?>
             </select><br><br>
@@ -192,7 +232,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         </form>
     </div>
 
-    <!-- Display the Shipment Agri Product Details in a Table -->
     <h2>Shipment Agri Product Details</h2>
     <table>
         <thead>
@@ -201,11 +240,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                 <th>Product ID</th>
                 <th>Quantity Shipped</th>
                 <th>Cost</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            // Fetch data from the SHIPMENT_AGRI_PRODUCT table
             $sql = "SELECT sap.shipment_id, sap.product_id, sap.quantity_shipped, sap.cost 
                     FROM SHIPMENT_AGRI_PRODUCT sap";
             $result = $conn->query($sql);
@@ -216,6 +255,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                         <td>{$row['product_id']}</td>
                         <td>{$row['quantity_shipped']}</td>
                         <td>{$row['cost']}</td>
+                        <td>
+                            <a href='edit_product_shipment.php?shipment_id={$row['shipment_id']}&product_id={$row['product_id']}' class='edit-btn'>Edit</a>
+                            <a href='product_shipment_details.php?delete_id={$row['shipment_id']}' class='delete-btn'>Delete</a>
+                        </td>
                     </tr>";
             }
             ?>
