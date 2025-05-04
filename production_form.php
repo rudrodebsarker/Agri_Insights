@@ -20,6 +20,8 @@ $product_query = "SELECT product_id FROM agri_product";
 $product_result = mysqli_query($conn, $product_query);
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
