@@ -88,6 +88,35 @@ if ($result === FALSE) {
             text-decoration: underline;
         }
 
+        /* Styling for the buttons */
+        .button-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 8px;
+            width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .button {
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px; /* Add space between the search button and the add button */
+        }
+
+        .button:hover {
+            background-color: #1d6a8b;
+        }
+
+
         /* Styling for the back button */
         .back-button {
             background-color: #2980b9;
