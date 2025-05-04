@@ -199,8 +199,8 @@ if ($result === FALSE) {
     </table>
 
 
-    <!-- Back Button -->
-    <a href="production_form.php" class="back-button">Back</a>
+     <!-- Back Button -->
+    <a href="admin_dashboard.php" class="back-button">Back to Admin Dashboard</a>
 </div>
 
 </body>
@@ -208,4 +208,4 @@ if ($result === FALSE) {
 
 <?php
 $conn->close();
-?> 
+?>
