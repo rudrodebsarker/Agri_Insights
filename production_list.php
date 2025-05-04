@@ -7,14 +7,21 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Check if a search term is provided
+$search = '';
+if (isset($_GET['search'])) {
+    $search = mysqli_real_escape_string($conn, $_GET['search']);
+}
+
 // SQL query to join production_data with agri_product, farmer, and agri_officer tables
 $query = "SELECT pd.production_id, pd.yield, pd.acreage, pd.cost, pd.per_acre_seeds_requirement, 
                  pd.seeding_date, pd.harvesting_date, pd.data_input_date, 
-                 ap.product_id, 
+                 ap.product_id, ap.name AS product_name,  -- Fetch product name from agri_product
                  f.farmer_id, f.name AS farmer_name
           FROM production_data pd
           LEFT JOIN agri_product ap ON pd.product_id = ap.product_id
-          LEFT JOIN farmer f ON pd.farmer_id = f.farmer_id"; // Removed officer_id from query
+          LEFT JOIN farmer f ON pd.farmer_id = f.farmer_id
+          WHERE pd.production_id LIKE '%$search%'"; // Filter based on search
 
 // Execute the query
 $result = $conn->query($query);
@@ -24,6 +31,7 @@ if ($result === FALSE) {
     die("Error: " . $conn->error);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
