@@ -124,7 +124,8 @@ if (isset($_SESSION['selected_wholesaler'])) {
     </div>
   </div>
 
-  <a href="shipments.php">Shipments</a>
+  <a href="shipment.php">Shipments</a>
+  <a href="logistics.php">Logistics</a>
   <a href="track_sales.php">Track Sales</a>
 
   <div class="dropdown" onclick="toggleDropdown()">
