@@ -111,65 +111,90 @@ $product_result = mysqli_query($conn, $product_query);
 
 <body>
     <div class="form-container">
+        <!-- View Production List Button moved to top -->
+        <button class="view-button" onclick="window.location.href='production_list.php';">View Production List</button>
+
         <h2>Enter Production Data</h2>
         <form id="productionForm" method="POST" action="insert_production.php">
             
             <!-- Production ID -->
             <label for="production_id">Production ID:</label>
             <input type="text" name="production_id" id="production_id" required>
-            
 
-            <label for="yield">Yield (kg):</label>
-            <input type="number" step="0.01" name="yield" id="yield" required>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="yield">Yield (kg):</label>
+                    <input type="number" step="0.01" name="yield" id="yield" required>
+                </div>
+                <div class="form-field">
+                    <label for="acreage">Acreage (hectares):</label>
+                    <input type="number" step="0.01" name="acreage" id="acreage" required>
+                </div>
+            </div>
 
-            <label for="acreage">Acreage (hectares):</label>
-            <input type="number" step="0.01" name="acreage" id="acreage" required>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="cost">Cost (TK):</label>
+                    <input type="text" name="cost" id="cost" required>
+                </div>
+                <div class="form-field">
+                    <label for="per_acre_seeds_requirement">Per Acre Seeds Requirement (kg):</label>
+                    <input type="number" step="0.01" name="per_acre_seeds_requirement" id="per_acre_seeds_requirement" required>
+                </div>
+            </div>
 
-            <label for="cost">Cost (TK):</label>
-            <input type="text" name="cost" id="cost" required>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="seeding_date">Seeding Date:</label>
+                    <input type="date" name="seeding_date" id="seeding_date" required>
+                </div>
+                <div class="form-field">
+                    <label for="harvesting_date">Harvesting Date:</label>
+                    <input type="date" name="harvesting_date" id="harvesting_date" required>
+                </div>
+            </div>
 
-            <label for="per_acre_seeds_requirement">Per Acre Seeds Requirement (kg):</label>
-            <input type="number" step="0.01" name="per_acre_seeds_requirement" id="per_acre_seeds_requirement" required>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="data_input_date">Data Input Date:</label>
+                    <input type="date" name="data_input_date" id="data_input_date" required>
+                </div>
+            </div>
 
-            <label for="seeding_date">Seeding Date:</label>
-            <input type="date" name="seeding_date" id="seeding_date" required>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="farmer_id">Farmer ID:</label>
+                    <select name="farmer_id" required>
+                        <?php while ($row = mysqli_fetch_assoc($farmer_result)): ?>
+                            <option value="<?php echo $row['farmer_id']; ?>"><?php echo $row['farmer_id']; ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="officer_id">Officer ID:</label>
+                    <select name="officer_id" required>
+                        <?php while ($row = mysqli_fetch_assoc($officer_result)): ?>
+                            <option value="<?php echo $row['officer_id']; ?>"><?php echo $row['officer_id']; ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
+            </div>
 
-            <label for="harvesting_date">Harvesting Date:</label>
-            <input type="date" name="harvesting_date" id="harvesting_date" required>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="product_id">Product ID:</label>
+                    <select name="product_id" required>
+                        <?php while ($row = mysqli_fetch_assoc($product_result)): ?>
+                            <option value="<?php echo $row['product_id']; ?>"><?php echo $row['product_id']; ?></option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
+            </div>
 
-            <label for="data_input_date">Data Input Date:</label>
-            <input type="date" name="data_input_date" id="data_input_date" required>
-
-            <!-- Farmer, Officer, and Product selection (populated from database) -->
-            <label for="farmer_id">Farmer ID:</label>
-            <select name="farmer_id" required>
-                <?php while ($row = mysqli_fetch_assoc($farmer_result)): ?>
-                    <option value="<?php echo $row['farmer_id']; ?>"><?php echo $row['farmer_id']; ?></option>
-                <?php endwhile; ?>
-            </select>
-
-            <label for="officer_id">Officer ID:</label>
-            <select name="officer_id" required>
-                <?php while ($row = mysqli_fetch_assoc($officer_result)): ?>
-                    <option value="<?php echo $row['officer_id']; ?>"><?php echo $row['officer_id']; ?></option>
-                <?php endwhile; ?>
-            </select>
-
-            <label for="product_id">Product ID:</label>
-            <select name="product_id" required>
-                <?php while ($row = mysqli_fetch_assoc($product_result)): ?>
-                    <option value="<?php echo $row['product_id']; ?>"><?php echo $row['product_id']; ?></option>
-                <?php endwhile; ?>
-            </select>
-
+            <!-- Submit button styled like other buttons -->
             <input type="submit" value="Submit">
         </form>
 
-        <!-- Back Button -->
-        <button class="back-button" onclick="window.location.href='admin_dashboard.php';">Back</button>
-
-        <!-- View Production List Button -->
-        <button class="view-button" onclick="window.location.href='production_list.php';">View Production List</button>
     </div>
 
 </body>
