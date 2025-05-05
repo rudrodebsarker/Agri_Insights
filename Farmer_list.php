@@ -12,7 +12,6 @@ $conn = new mysqli($host, $user, $password, $database);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-<?php
 // Delete Farmer Logic
 if(isset($_GET['delete_id'])) {
     $delete_id = intval($_GET['delete_id']);
