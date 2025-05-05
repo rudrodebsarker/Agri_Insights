@@ -1,4 +1,17 @@
-<?php include('dp_config.php'); ?>
+<?php
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
+
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 <?php
 // Delete Farmer Logic
 if(isset($_GET['delete_id'])) {
