@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Record Shipment Date</title>
     <style>
-        /* General body styles */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f5f7fa;
@@ -51,18 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             margin-bottom: 30px;
         }
 
-        h2 {
-            color: #2980b9;
-            padding-bottom: 10px;
-        }
-
         .container {
             width: 80%;
             margin: 0 auto;
             max-width: 800px;
         }
 
-        /* Form container styling */
         .form-container {
             background-color: #ffffff;
             padding: 30px;
@@ -78,13 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             display: block;
         }
 
-        input[type="text"], input[type="date"], input[type="number"], select {
+        input[type="text"], input[type="date"], select {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
-            box-sizing: border-box;
             font-size: 14px;
         }
 
@@ -104,25 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             background-color: #1d6a8b;
         }
 
-        /* Back button styling */
-        .back-btn {
-            padding: 10px 20px;
-            background-color: #1d6a8b;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .back-btn:hover {
-            background-color: #2980b9;
-        }
-
-        /* Button to go to Product Shipment Details */
         .product-details-btn {
             padding: 10px 20px;
             background-color: #f39c12;
@@ -140,7 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             background-color: #e67e22;
         }
 
-        /* Button to go to Shipment List */
         .view-shipment-btn {
             padding: 10px 20px;
             background-color: #16a085;
@@ -162,19 +134,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 <body>
 
 <div class="container">
-    <!-- Back Button -->
-    <a href="dashboard.php" class="back-btn">Back to Dashboard</a>
-
     <h1>Record Shipment Date</h1>
 
-    <!-- Shipment Form -->
     <div class="form-container">
         <form method="POST" action="shipment.php">
             <label for="shipment_id">Shipment ID (Unique):</label>
-            <input type="text" id="shipment_id" name="shipment_id" required><br><br>
+            <input type="text" id="shipment_id" name="shipment_id" required>
 
             <label for="ship_date">Ship Date:</label>
-            <input type="date" id="ship_date" name="ship_date" required><br><br>
+            <input type="date" id="ship_date" name="ship_date" required>
 
             <label for="warehouse_id">Warehouse ID:</label>
             <select id="warehouse_id" name="warehouse_id" required>
@@ -184,20 +152,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                 $result = $conn->query($sql);
 
                 while ($row = $result->fetch_assoc()) {
-                    // Display only warehouse_id
                     echo "<option value='" . $row['warehouse_id'] . "'>" . $row['warehouse_id'] . "</option>";
                 }
                 ?>
-            </select><br><br>
+            </select>
 
             <button type="submit" name="submit">Submit</button>
         </form>
     </div>
 
-    <!-- Product Shipment Details Button -->
     <button onclick="window.location.href='product_shipment_details.php';" class="product-details-btn">View Product Shipment Details</button>
-
-    <!-- View Shipment List Button -->
     <button onclick="window.location.href='shipment_list.php';" class="view-shipment-btn">View Shipment List</button>
 
 </div>

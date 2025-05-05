@@ -1,7 +1,24 @@
-<?php 
-include 'db_config.php';  // Include database connection
+<?php
+$conn = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-// Handle edit form submission (Update warehouse)
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+if (isset($_GET['delete_id'])) {
+    $delete_id = mysqli_real_escape_string($conn, $_GET['delete_id']);
+    $sql_delete = "DELETE FROM WAREHOUSE WHERE warehouse_id = '$delete_id'";
+    if ($conn->query($sql_delete) === TRUE) {
+        echo "Warehouse deleted successfully.";
+    } else {
+        echo "Error: " . $sql_delete . "<br>" . $conn->error;
+    }
+   
+    header("Location: warehouse_management.php");
+    exit();
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
     $warehouse_id = $_POST['warehouse_id'];
     $name = $_POST['name'];
@@ -19,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
 // Handle form submission for adding new warehouse
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     $warehouse_id = $_POST['warehouse_id'];
@@ -41,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
                 VALUES ('$warehouse_id', '$name', '$location', '$contact_num', '$available_stock', '$last_updated')";
         
         if ($conn->query($sql) === TRUE) {
-            echo " ";
+            echo "New warehouse added successfully.";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
@@ -56,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warehouse Management</title>
     <style>
-        /* General body styles */
+    
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f5f7fa;
@@ -161,12 +177,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
             text-decoration: underline;
         }
 
-        /* Scroll to edit form */
+    
         .scrollToForm {
             transition: all 0.5s ease-in-out;
         }
 
-        /* Back button styles */
+        
         .back-btn {
             padding: 10px 20px;
             background-color: #1d6a8b;
@@ -185,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
         }
     </style>
     <script>
-        // Ensure that the page scrolls to the edit form when the page is loaded
+      
         window.onload = function() {
             if (window.location.hash === "#editForm") {
                 document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
@@ -196,12 +212,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
 <body>
 
 <div class="container">
-    <!-- Back Button -->
-    <a href="dashboard.php" class="back-btn">Back to Dashboard</a>
+
+    <a href="admin_dashboard.php" class="back-btn">Back to Dashboard</a>
 
     <h1>Warehouse Management</h1>
 
-    <!-- Add New Warehouse Form -->
+
     <div class="form-container">
         <h2>Add New Warehouse</h2>
         <form method="POST" action="warehouse_management.php">
@@ -256,15 +272,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
                         <td>{$row['available_stock_of_product']}</td>
                         <td>{$row['last_updated']}</td>
                         <td class='actions'>
-                            <a href='?edit_id={$row['warehouse_id']}#editForm'>Edit</a>
+                            <a href='?edit_id={$row['warehouse_id']}#editForm'>Edit</a> | 
+                            <a href='?delete_id={$row['warehouse_id']}' onclick='return confirm(\"Are you sure you want to delete?\")'>Delete</a>
                         </td>
                     </tr>";
             }
             ?>
         </tbody>
     </table>
-
-    <!-- Edit form -->
+<!-- Edit form -->
     <?php
     if (isset($_GET['edit_id'])) {
         $edit_id = $_GET['edit_id'];
