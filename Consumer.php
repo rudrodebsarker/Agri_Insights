@@ -65,7 +65,7 @@ if (isset($_GET['delete_id'])) {
     $sql = "DELETE FROM consumer WHERE consumer_id = '$delete_id'";
     if ($conn->query($sql)) {
         echo "<script>alert('Consumer deleted successfully!');</script>";
-        echo "<script>window.location.href='Consumer.php';</script>";
+        echo "<script>window.location.href='Consumer_list.php';</script>";
     } else {
         echo "<script>alert('Error deleting consumer: " . $conn->error . "');</script>";
     }
@@ -177,28 +177,6 @@ if ($emailsQuery->num_rows > 0) {
             overflow: hidden;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 30px;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        th {
-            background: #9333ea;
-            color: white;
-            font-weight: 500;
-        }
-
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -228,6 +206,27 @@ if ($emailsQuery->num_rows > 0) {
             display: inline-block;
         }
 
+        .btn {
+            background: #9333ea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
         button {
             background: #9333ea;
             color: white;
@@ -279,6 +278,12 @@ if ($emailsQuery->num_rows > 0) {
             font-size: 100px;
             color: white;
         }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -323,51 +328,17 @@ if ($emailsQuery->num_rows > 0) {
                 </div>
                 <div class="btn-container">
                     <?php if ($editMode): ?>
-                        <button type="submit" name="update_consumer"><i class="fas fa-edit"></i>Update Consumer</button>
+                        <button type="submit" name="update_consumer" class="btn"><i class="fas fa-edit"></i>Update Consumer</button>
                     <?php else: ?>
-                        <button type="submit"><i class="fas fa-user-plus"></i>Submit Consumer Data</button>
+                        <button type="submit" class="btn"><i class="fas fa-user-plus"></i>Submit Consumer Data</button>
                     <?php endif; ?>
                 </div>
             </form>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $result = $conn->query("SELECT * FROM consumer ORDER BY consumer_id");
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                            <td>" . htmlspecialchars($row['consumer_id']) . "</td>
-                            <td>" . htmlspecialchars($row['name']) . "</td>
-                            <td>" . htmlspecialchars($row['contact']) . "</td>
-                            <td>" . htmlspecialchars($row['email']) . "</td>
-                            <td>
-                                <div class='action-buttons'>
-                                    <a href='?edit_id=" . $row['consumer_id'] . "' class='edit-btn'>
-                                        <i class='fas fa-edit'></i>Edit
-                                    </a>
-                                    <a href='?delete_id=" . $row['consumer_id'] . "' class='delete-btn' 
-                                       onclick='return confirm(\"Are you sure you want to delete this consumer?\")'>
-                                        <i class='fas fa-trash'></i>Delete
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>";
-                    }
-                }
-                ?>
-            </tbody>
-        </table>
+        <div class="nav-buttons">
+            <a href="Consumer_list.php" class="btn"><i class="fas fa-arrow-right"></i> Next Page</a>
+        </div>
     </div>
 </body>
 </html>
