@@ -228,6 +228,7 @@ canvas {
         <a href="#" class="logo">AgriInsights</a>
       </div>
       <ul class="nav-links">
+      <li><button onclick="window.location.href='Farmer.php'">Fill the form</button></li>
         <li><button onclick="window.location.href='f_agriProduct_list.php'">Crop Information</button></li>
         <li><button onclick="window.location.href='f_production_list.php'">Production Data</button></li>
          <li><button onclick="window.location.href='wholeSeller_list.php'">Byer Info</button></li>
