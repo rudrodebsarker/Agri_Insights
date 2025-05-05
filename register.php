@@ -1,6 +1,5 @@
 <?php
-session_start(); // Start the session
-include('server.php'); // Include the server.php file for database connection and registration logic
+include('server.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -89,21 +88,20 @@ include('server.php'); // Include the server.php file for database connection an
     }
   </style>
   <script>
-    // Display success message as a pop-up when registration is successful
     <?php if (isset($_SESSION['success'])): ?>
         window.onload = function() {
             alert("<?php echo $_SESSION['success']; ?>"); // Show the success message
-            window.location.href = 'login.php'; // Redirect to the login page after the alert
+            window.location.href = 'login.php'; 
         };
-        <?php unset($_SESSION['success']); ?> // Clear the success message from the session
+        <?php unset($_SESSION['success']); ?> 
     <?php endif; ?>
 
-    // Display error message if any
+   
     <?php if (isset($_SESSION['error'])): ?>
         window.onload = function() {
             alert("<?php echo $_SESSION['error']; ?>"); // Show the error message
         };
-        <?php unset($_SESSION['error']); ?> // Clear the error message from the session
+        <?php unset($_SESSION['error']); ?> 
     <?php endif; ?>
   </script>
 </head>
