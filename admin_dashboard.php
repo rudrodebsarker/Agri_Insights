@@ -72,11 +72,9 @@
             <ul class="dropdown-menu">
               <li><a href="sale_information.php">Sale Info</a></li>
               <li><a href="price_trends.php">Price Trends</a></li>
-              <li><a href="track_agri_traders.php"></a>Track Agri_traders</li>
+              <li><a href="track_agri_traders.php">Track Agri_traders</a></li>
               <li><a href="cd_pe.php">Demand & Price Elasticity</a></li>
-              
 
-              track_agri_traders.php
             </ul>
         </li>
         <li class="dropdown">
