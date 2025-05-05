@@ -1,27 +1,32 @@
 <?php
-// Connect to the database
+session_start();
+
+if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'Warehouse_manager') {
+    $_SESSION['msg'] = "You must log in as Warehouse Manager first";
+    header('location: login.php');
+    exit();
+}
+
 $conn = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-// Check the connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+$message = '';  
 
 // Handle delete warehouse functionality
 if (isset($_GET['delete_id'])) {
     $delete_id = mysqli_real_escape_string($conn, $_GET['delete_id']);
     $sql_delete = "DELETE FROM WAREHOUSE WHERE warehouse_id = '$delete_id'";
     if ($conn->query($sql_delete) === TRUE) {
-        echo "Warehouse deleted successfully.";
+        $message = "Warehouse deleted successfully.";
     } else {
-        echo "Error: " . $sql_delete . "<br>" . $conn->error;
+        $message = "Error: " . $sql_delete . "<br>" . $conn->error;
     }
-    // After deletion, redirect to avoid accidental re-deletion after refresh
-    header("Location: warehouse_management.php");
-    exit();
 }
 
-// Handle edit form submission (Update warehouse)
+// Handle edit form submission 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
     $warehouse_id = $_POST['warehouse_id'];
     $name = $_POST['name'];
@@ -34,9 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
     $sql = "UPDATE WAREHOUSE SET name='$name', location='$location', contact_num='$contact_num', available_stock_of_product='$available_stock', last_updated='$last_updated' WHERE warehouse_id='$warehouse_id'";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Warehouse updated successfully.";
+        $message = "Warehouse updated successfully.";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        $message = "Error: " . $sql . "<br>" . $conn->error;
     }
 }
 
@@ -54,19 +59,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     $check_result = $conn->query($check_sql);
 
     if ($check_result->num_rows > 0) {
-        echo "Warehouse ID already exists. Please use a unique Warehouse ID.";
+        $message = "Warehouse ID already exists. Please use a unique Warehouse ID.";
     } else {
         // Insert new warehouse record
         $sql = "INSERT INTO WAREHOUSE (warehouse_id, name, location, contact_num, available_stock_of_product, last_updated) 
                 VALUES ('$warehouse_id', '$name', '$location', '$contact_num', '$available_stock', '$last_updated')";
         
         if ($conn->query($sql) === TRUE) {
-            echo "New warehouse added successfully.";
+            $message = "New warehouse added successfully.";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            $message = "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
+
+$sql = "SELECT * FROM WAREHOUSE";
+$result = $conn->query($sql);
+
+$query_donut = "SELECT name, SUM(available_stock_of_product) AS total_stock FROM WAREHOUSE GROUP BY name";
+$result_donut = mysqli_query($conn, $query_donut);
+$donut_data = [];
+while ($row = mysqli_fetch_assoc($result_donut)) {
+    $donut_data[] = $row;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -76,13 +92,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warehouse Management</title>
     <style>
-        /* General body styles */
+        /* Reset & Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f5f7fa;
-            margin: 0;
-            padding: 0;
             color: #333;
+            padding: 0 20px;
         }
 
         h1 {
@@ -181,12 +202,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
             text-decoration: underline;
         }
 
-        /* Scroll to edit form */
+      
         .scrollToForm {
             transition: all 0.5s ease-in-out;
         }
 
-        /* Back button styles */
+       
         .back-btn {
             padding: 10px 20px;
             background-color: #1d6a8b;
@@ -205,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
         }
     </style>
     <script>
-        // Ensure that the page scrolls to the edit form when the page is loaded
+    
         window.onload = function() {
             if (window.location.hash === "#editForm") {
                 document.getElementById("editForm").scrollIntoView({ behavior: "smooth" });
@@ -221,10 +242,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
 
     <h1>Warehouse Management</h1>
 
+    <!-- Success/Error Message -->
+    <?php if ($message) { echo "<p style='color: green;'>$message</p>"; } ?>
+
     <!-- Add New Warehouse Form -->
     <div class="form-container">
         <h2>Add New Warehouse</h2>
-        <form method="POST" action="warehouse_management.php">
+        <form method="POST" action="M_Warehouse_management.php">
             <label for="warehouse_id">Warehouse ID:</label>
             <input type="text" id="warehouse_id" name="warehouse_id" required><br>
 
@@ -248,7 +272,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
     </div>
 
     <!-- Warehouse Table -->
-    <h2>Existing Warehouses</h2>
+    <h2 id="tableArea">Existing Warehouses</h2>
     <table>
         <thead>
             <tr>
@@ -263,23 +287,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
         </thead>
         <tbody>
             <?php
-            // Fetch all warehouse records from WAREHOUSE table
-            $sql = "SELECT * FROM WAREHOUSE";
-            $result = $conn->query($sql);
-
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>
-                        <td>{$row['warehouse_id']}</td>
-                        <td>{$row['name']}</td>
-                        <td>{$row['location']}</td>
-                        <td>{$row['contact_num']}</td>
-                        <td>{$row['available_stock_of_product']}</td>
-                        <td>{$row['last_updated']}</td>
-                        <td class='actions'>
-                            <a href='?edit_id={$row['warehouse_id']}#editForm'>Edit</a> | 
-                            <a href='?delete_id={$row['warehouse_id']}' onclick='return confirm(\"Are you sure you want to delete?\")'>Delete</a>
-                        </td>
-                    </tr>";
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>{$row['warehouse_id']}</td>
+                            <td>{$row['name']}</td>
+                            <td>{$row['location']}</td>
+                            <td>{$row['contact_num']}</td>
+                            <td>{$row['available_stock_of_product']}</td>
+                            <td>{$row['last_updated']}</td>
+                            <td class='actions'>
+                                <a href='?edit_id={$row['warehouse_id']}#editForm'>Edit</a> | 
+                                <a href='?delete_id={$row['warehouse_id']}' onclick='return confirm(\"Are you sure you want to delete?\")'>Delete</a>
+                            </td>
+                        </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='7'>No warehouses available.</td></tr>";
             }
             ?>
         </tbody>
@@ -293,9 +317,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
         $result = $conn->query($sql);
         $row = $result->fetch_assoc();
     ?>
-        <div id="editForm" class="form-container scrollToForm">
+        <div id="editForm" class="form-container">
             <h2>Edit Warehouse Information</h2>
-            <form method="POST" action="warehouse_management.php">
+            <form method="POST" action="M_Warehouse_management.php">
                 <input type="hidden" name="warehouse_id" value="<?php echo $row['warehouse_id']; ?>">
 
                 <label for="name">Warehouse Name:</label>
