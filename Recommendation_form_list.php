@@ -1,6 +1,17 @@
 <?php 
-// Include the dp_config.php file for database configuration
-include('dp_config.php'); 
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
+
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // Handle delete operation
 if (isset($_GET['delete_id'])) {
@@ -307,8 +318,8 @@ if ($officersQuery->num_rows > 0) {
                                     <a href='Recommendation_form.php?edit_id=" . $row['officer_id'] . "' class='edit-btn'>
                                         <i class='fas fa-edit'></i>Edit
                                     </a>
-                                    <a href='?delete_id=" . $row['officer_id'] . "' class='delete-btn' 
-                                       onclick='return confirm(\"Are you sure you want to delete this recommendation?\")'>
+                                    <a href='javascript:void(0)' class='delete-btn' 
+                                       onclick='deleteRecommendation(\"" . $row['officer_id'] . "\")'>
                                         <i class='fas fa-trash'></i>Delete
                                     </a>
                                 </div>
@@ -323,7 +334,7 @@ if ($officersQuery->num_rows > 0) {
         </table>
 
         <div class="nav-buttons">
-        <a href="Recommendation_form.php?recommendation_id=<?php echo isset($_GET['filter_id']) ? $_GET['filter_id'] : ''; ?>" class="btn"><i class="fas fa-arrow-left"></i> Back to Form</a>
+            <a href="Recommendation_form.php" class="btn"><i class="fas fa-arrow-left"></i> Back to Form</a>
         </div>
     </div>
 </body>
