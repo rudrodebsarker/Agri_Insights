@@ -129,7 +129,7 @@ mysqli_close($db);
     <?php endif; ?>
 
     <br>
-    <a href="add_AgriProduct_form.html"><button class="btn">Add New Product</button></a>
+    <a href="add_AgriProduct_form.php"><button class="btn">Add New Product</button></a>
     <a href="admin_dashboard.php"><button class="btn btn-back">Back</button></a>
   </div>
 </body>
