@@ -181,8 +181,8 @@ footer {
 
 canvas {
   width: 100% !important;
-  height: 350px !important; 
-  max-width: 400px; 
+  height: 350px !important; /* Adjust height to make the chart smaller */
+  max-width: 400px; /* Set maximum width for smaller chart */
   margin-bottom: 30px;
 }
 
@@ -228,12 +228,12 @@ canvas {
         <a href="#" class="logo">AgriInsights</a>
       </div>
       <ul class="nav-links">
-      <li><button onclick="window.location.href='Farmer.php'">Fill the form</button></li>
         <li><button onclick="window.location.href='f_agriProduct_list.php'">Crop Information</button></li>
         <li><button onclick="window.location.href='f_production_list.php'">Production Data</button></li>
          <li><button onclick="window.location.href='wholeSeller_list.php'">Byer Info</button></li>
         <li><button onclick="window.location.href='f_product_shipment_details.php'">Shipment Agri_Product </button></li>
         <li><button onclick="window.location.href='weather_Table.php'">weather Info</button></li>
+        <li><button onclick="window.location.href='farmers_recommendation.php'">Recomendation</button></li>
         <li><button onclick="window.location.href='index.php?logout=1'">Logout</button></li>
       </ul>
     </div>
