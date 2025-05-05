@@ -244,7 +244,7 @@ $conn->close();
       <li><button onclick="window.location.href='agriOficer.php'">Fill the Form</button></li>
       <li><button onclick="window.location.href='officer_view_production_list.php'">Crop Production Report</button></li>
       <li><button onclick="window.location.href='weathe.php'">Weather Info</button></li>
-      <li><button onclick="window.location.href='officer_recommendations.php'">Recommendations</button></li>
+      <li><button onclick="window.location.href='Recomendation_form.php'">Recommendations</button></li>
       <li><button onclick="window.location.href='index.php?logout=1'">Logout</button></li>
     </ul>
   </nav>
