@@ -84,7 +84,7 @@ $retailers = $conn->query("SELECT * FROM retailer");
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h3>Track Agri Traders</h3>
-    <a href="index.php" class="btn btn-success">← Back to Dashboard</a>
+    <a href="admin_dashboard.php" class="btn btn-success">← Back to Dashboard</a>
   </div>
 
   <!-- Search Section -->

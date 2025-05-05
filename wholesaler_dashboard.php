@@ -114,6 +114,7 @@ if (isset($_SESSION['selected_wholesaler'])) {
   <h2>Wholesaler</h2>
   <a href="wholesaler_dashboard.php">Dashboard</a>
   <a href="update_wholesaler_profile.php">Update Profile</a>
+  <a href="Wholesaler.php">Join Database</a>
   <a href="inventory.php">Inventory</a>
 
   <div class="dropdown" onclick="toggleProductsDropdown()">
@@ -124,7 +125,7 @@ if (isset($_SESSION['selected_wholesaler'])) {
     </div>
   </div>
 
-  <a href="shipment.php">Shipments</a>
+  <a href="w_shipment.php">Shipments</a>
   <a href="logistics.php">Logistics</a>
   <a href="track_sales.php">Track Sales</a>
 
