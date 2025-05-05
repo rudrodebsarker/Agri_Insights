@@ -133,7 +133,7 @@ if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'Agricultural_Off
       <ul class="nav-links">
         <li><a href="agriOficer.php">Fill the Form</a></li>
         <li><a href="agriOficers_List.php">View AgriOfficer List</a></li>
-        <li><a href="production_list.php">Crop Report</a></li>
+        <li><a href="officer_view_production_list.php">Crop Production Report</a></li>
         <li><a href="officer_recommendations.php">Recommendations</a></li>
         <li><a href="index.php?logout='1'">Logout</a></li>
       </ul>
