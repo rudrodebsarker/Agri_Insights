@@ -1,75 +1,82 @@
 <?php 
-// Include the dp_config.php file for database configuration
-include('dp_config.php'); 
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
 
-// Create the wholeseller table if it doesn't exist
-$sql = "CREATE TABLE IF NOT EXISTS wholeseller (
-    wholeseller_id VARCHAR(50) PRIMARY KEY,
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Create the retailer table if it doesn't exist
+$sql = "CREATE TABLE IF NOT EXISTS retailer (
+    retailer_id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     contact VARCHAR(50) NOT NULL,
-    house VARCHAR(100) NOT NULL,
-    road VARCHAR(100) NOT NULL,
-    area VARCHAR(100) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    country VARCHAR(100) NOT NULL
+    road VARCHAR(100),
+    area VARCHAR(100),
+    city VARCHAR(100),
+    country VARCHAR(100)
 )";
 if (!$conn->query($sql)) {
     die("Error creating table: " . $conn->error);
 }
 
-// Handle form submission for adding or updating wholeseller
+// Handle form submission for adding or updating retailer
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['update_wholeseller']) && isset($_POST['edit_id'])) {
-        // Update existing wholeseller
-        $wholeseller_id = $conn->real_escape_string($_POST['wholesellerId']);
+    if(isset($_POST['update_retailer']) && isset($_POST['edit_id'])) {
+        // Update existing retailer
+        $retailer_id = $conn->real_escape_string($_POST['retailerId']);
         $name = $conn->real_escape_string($_POST['name']);
         $contact = $conn->real_escape_string($_POST['contact']);
-        $house = $conn->real_escape_string($_POST['house']);
         $road = $conn->real_escape_string($_POST['road']);
         $area = $conn->real_escape_string($_POST['area']);
         $city = $conn->real_escape_string($_POST['city']);
         $country = $conn->real_escape_string($_POST['country']);
         $edit_id = $conn->real_escape_string($_POST['edit_id']);
 
-        $sql = "UPDATE wholeseller SET 
-                wholeseller_id = '$wholeseller_id',
+        $sql = "UPDATE retailer SET 
+                retailer_id = '$retailer_id',
                 name = '$name', 
                 contact = '$contact', 
-                house = '$house',
                 road = '$road', 
                 area = '$area', 
                 city = '$city', 
                 country = '$country' 
-                WHERE wholeseller_id = '$edit_id'";
+                WHERE retailer_id = '$edit_id'";
 
         if ($conn->query($sql)) {
-            echo "<script>alert('Wholesaler updated successfully!');</script>";
+            echo "<script>alert('Retailer updated successfully!');</script>";
         } else {
-            echo "<script>alert('Error updating wholesaler: " . $conn->error . "');</script>";
+            echo "<script>alert('Error updating retailer: " . $conn->error . "');</script>";
         }
     } else {
-        // Add new wholeseller
-        $wholeseller_id = $conn->real_escape_string($_POST['wholesellerId']);
+        // Add new retailer
+        $retailer_id = $conn->real_escape_string($_POST['retailerId']);
         $name = $conn->real_escape_string($_POST['name']);
         $contact = $conn->real_escape_string($_POST['contact']);
-        $house = $conn->real_escape_string($_POST['house']);
         $road = $conn->real_escape_string($_POST['road']);
         $area = $conn->real_escape_string($_POST['area']);
         $city = $conn->real_escape_string($_POST['city']);
         $country = $conn->real_escape_string($_POST['country']);
 
-        // Check if wholeseller ID already exists
-        $check = $conn->query("SELECT wholeseller_id FROM wholeseller WHERE wholeseller_id = '$wholeseller_id'");
+        // Check if retailer ID already exists
+        $check = $conn->query("SELECT retailer_id FROM retailer WHERE retailer_id = '$retailer_id'");
         if ($check->num_rows > 0) {
-            echo "<script>alert('Wholesaler ID already exists!');</script>";
+            echo "<script>alert('Retailer ID already exists!');</script>";
         } else {
-            $sql = "INSERT INTO wholeseller (wholeseller_id, name, contact, house, road, area, city, country) 
-                    VALUES ('$wholeseller_id', '$name', '$contact', '$house', '$road', '$area', '$city', '$country')";
+            $sql = "INSERT INTO retailer (retailer_id, name, contact, road, area, city, country) 
+                    VALUES ('$retailer_id', '$name', '$contact', '$road', '$area', '$city', '$country')";
 
             if ($conn->query($sql)) {
-                echo "<script>alert('Wholesaler added successfully!');</script>";
+                echo "<script>alert('Retailer added successfully!');</script>";
             } else {
-                echo "<script>alert('Error adding wholesaler: " . $conn->error . "');</script>";
+                echo "<script>alert('Error adding retailer: " . $conn->error . "');</script>";
             }
         }
     }
@@ -78,12 +85,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Handle delete operation
 if (isset($_GET['delete_id'])) {
     $delete_id = $conn->real_escape_string($_GET['delete_id']);
-    $sql = "DELETE FROM wholeseller WHERE wholeseller_id = '$delete_id'";
+    $sql = "DELETE FROM retailer WHERE retailer_id = '$delete_id'";
     if ($conn->query($sql)) {
-        echo "<script>alert('Wholesaler deleted successfully!');</script>";
-        echo "<script>window.location.href='Wholesaler_list.php';</script>";
+        echo "<script>alert('Retailer deleted successfully!');</script>";
+        echo "<script>window.location.href='Retailer_list.php';</script>";
     } else {
-        echo "<script>alert('Error deleting wholesaler: " . $conn->error . "');</script>";
+        echo "<script>alert('Error deleting retailer: " . $conn->error . "');</script>";
     }
 }
 
@@ -92,7 +99,7 @@ $editMode = false;
 $editData = null;
 if (isset($_GET['edit_id'])) {
     $edit_id = $conn->real_escape_string($_GET['edit_id']);
-    $result = $conn->query("SELECT * FROM wholeseller WHERE wholeseller_id = '$edit_id'");
+    $result = $conn->query("SELECT * FROM retailer WHERE retailer_id = '$edit_id'");
     if ($result->num_rows > 0) {
         $editData = $result->fetch_assoc();
         $editMode = true;
@@ -100,11 +107,11 @@ if (isset($_GET['edit_id'])) {
 }
 
 // Calculate statistics
-$totalWholesellers = 0;
-$citiesQuery = $conn->query("SELECT COUNT(DISTINCT city) as city_count, COUNT(*) as wholeseller_count FROM wholeseller");
+$totalRetailers = 0;
+$citiesQuery = $conn->query("SELECT COUNT(DISTINCT city) as city_count, COUNT(*) as retailer_count FROM retailer");
 if ($citiesQuery->num_rows > 0) {
     $stats = $citiesQuery->fetch_assoc();
-    $totalWholesellers = $stats['wholeseller_count'];
+    $totalRetailers = $stats['retailer_count'];
     $activeCities = $stats['city_count'];
 } else {
     $activeCities = 0;
@@ -116,7 +123,7 @@ if ($citiesQuery->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wholesaler Management System</title>
+    <title>Retailer Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -143,8 +150,8 @@ if ($citiesQuery->num_rows > 0) {
         }
 
         .hero-section {
-            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(76, 175, 80, 0.8)),
-                        url('https://images.unsplash.com/photo-1586528116318-ad696d3adc7b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8)),
+                        url('https://images.unsplash.com/photo-1556740734-9f9ca6cbbb69?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             height: 250px;
@@ -173,12 +180,12 @@ if ($citiesQuery->num_rows > 0) {
             display: flex;
             align-items: center;
             gap: 20px;
-            border-left: 5px solid #4CAF50;
+            border-left: 5px solid #3498db;
         }
 
         .stats-icon {
             font-size: 28px;
-            background: #4CAF50;
+            background: #3498db;
             color: white;
             padding: 18px;
             border-radius: 50%;
@@ -210,7 +217,7 @@ if ($citiesQuery->num_rows > 0) {
         }
 
         th {
-            background: #4CAF50;
+            background: #3498db;
             color: white;
             font-weight: 500;
         }
@@ -221,7 +228,7 @@ if ($citiesQuery->num_rows > 0) {
         }
 
         .edit-btn {
-            background: #2E7D32;
+            background: #27ae60;
             padding: 8px 15px;
             border-radius: 5px;
             border: none;
@@ -245,7 +252,7 @@ if ($citiesQuery->num_rows > 0) {
         }
 
         button {
-            background: #4CAF50;
+            background: #3498db;
             color: white;
             border: none;
             padding: 12px 30px;
@@ -285,8 +292,8 @@ if ($citiesQuery->num_rows > 0) {
 
         input:focus {
             outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
         }
 
         .decorative-icons {
@@ -295,15 +302,15 @@ if ($citiesQuery->num_rows > 0) {
             font-size: 100px;
             color: white;
         }
-
+        
         .nav-buttons {
             display: flex;
             justify-content: flex-end;
             margin-top: 30px;
         }
-
+        
         .next-page-btn {
-            background: #4CAF50;
+            background: #3498db;
             color: white;
             border: none;
             padding: 12px 30px;
@@ -317,7 +324,7 @@ if ($citiesQuery->num_rows > 0) {
             text-decoration: none;
             display: inline-block;
         }
-
+        
         .next-page-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -327,16 +334,16 @@ if ($citiesQuery->num_rows > 0) {
 <body>
     <div class="container">
         <div class="hero-section">
-            <i class="fas fa-boxes decorative-icons icon-left"></i>
-            <h1>📦 Wholesaler Management System</h1>
-            <i class="fas fa-pallet decorative-icons icon-right"></i>
+            <i class="fas fa-store decorative-icons icon-left"></i>
+            <h1>🛒 Retailer Management System</h1>
+            <i class="fas fa-shopping-basket decorative-icons icon-right"></i>
         </div>
 
         <div class="stats-card">
-            <i class="fas fa-chart-bar stats-icon"></i>
+            <i class="fas fa-chart-pie stats-icon"></i>
             <div>
-                <h3>Wholesaler Statistics</h3>
-                <p>Total Wholesalers: <span id="totalWholesellers"><?php echo $totalWholesellers; ?></span></p>
+                <h3>Retailer Statistics</h3>
+                <p>Total Retailers: <span id="totalRetailers"><?php echo $totalRetailers; ?></span></p>
                 <p>Active Cities: <span id="activeCities"><?php echo $activeCities; ?></span></p>
             </div>
         </div>
@@ -344,24 +351,20 @@ if ($citiesQuery->num_rows > 0) {
         <div class="form-container">
             <form method="POST" action="">
                 <?php if ($editMode): ?>
-                    <input type="hidden" name="edit_id" value="<?php echo $editData['wholeseller_id']; ?>">
+                    <input type="hidden" name="edit_id" value="<?php echo $editData['retailer_id']; ?>">
                 <?php endif; ?>
                 <div class="form-grid">
                     <div class="input-group">
-                        <label><i class="fas fa-barcode"></i>Wholesaler ID</label>
-                        <input type="text" name="wholesellerId" value="<?php echo $editMode ? $editData['wholeseller_id'] : ''; ?>" required>
+                        <label><i class="fas fa-id-badge"></i>Retailer ID</label>
+                        <input type="text" name="retailerId" value="<?php echo $editMode ? $editData['retailer_id'] : ''; ?>" required>
                     </div>
                     <div class="input-group">
-                        <label><i class="fas fa-building"></i>Name</label>
+                        <label><i class="fas fa-user-tie"></i>Name</label>
                         <input type="text" name="name" value="<?php echo $editMode ? $editData['name'] : ''; ?>" required>
                     </div>
                     <div class="input-group">
-                        <label><i class="fas fa-phone-volume"></i>Contact</label>
+                        <label><i class="fas fa-phone"></i>Contact</label>
                         <input type="tel" name="contact" value="<?php echo $editMode ? $editData['contact'] : ''; ?>" required>
-                    </div>
-                    <div class="input-group">
-                        <label><i class="fas fa-home"></i>House</label>
-                        <input type="text" name="house" value="<?php echo $editMode ? $editData['house'] : ''; ?>" required>
                     </div>
                     <div class="input-group">
                         <label><i class="fas fa-road"></i>Road</label>
@@ -376,22 +379,22 @@ if ($citiesQuery->num_rows > 0) {
                         <input type="text" name="city" value="<?php echo $editMode ? $editData['city'] : ''; ?>" required>
                     </div>
                     <div class="input-group">
-                        <label><i class="fas fa-globe-europe"></i>Country</label>
+                        <label><i class="fas fa-flag"></i>Country</label>
                         <input type="text" name="country" value="<?php echo $editMode ? $editData['country'] : ''; ?>" required>
                     </div>
                 </div>
                 <div class="btn-container">
                     <?php if ($editMode): ?>
-                        <button type="submit" name="update_wholeseller"><i class="fas fa-edit"></i>Update Wholesaler</button>
+                        <button type="submit" name="update_retailer"><i class="fas fa-edit"></i>Update Retailer</button>
                     <?php else: ?>
-                        <button type="submit"><i class="fas fa-warehouse"></i>Submit Wholesaler Data</button>
+                        <button type="submit"><i class="fas fa-store"></i>Submit Retailer Data</button>
                     <?php endif; ?>
                 </div>
             </form>
         </div>
 
         <div class="nav-buttons">
-            <a href="Wholesaler_list.php" class="next-page-btn"><i class="fas fa-arrow-right"></i> Next Page</a>
+            <a href="Retailer_list.php" class="next-page-btn"><i class="fas fa-arrow-right"></i> Next Page</a>
         </div>
     </div>
 </body>
