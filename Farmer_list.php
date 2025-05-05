@@ -15,17 +15,22 @@ if ($conn->connect_error) {
 
 // Delete Farmer Logic
 if(isset($_GET['delete_id'])) {
-    $delete_id = intval($_GET['delete_id']);
-    $conn->query("DELETE FROM farmer WHERE farmer_id = $delete_id");
-    header("Location: Farmer_list.php");
+    $delete_id = $conn->real_escape_string($_GET['delete_id']);
+    $sql = "DELETE FROM farmer WHERE farmer_id = '$delete_id'";
+    if($conn->query($sql)) {
+        echo "<script>alert('Farmer deleted successfully!');</script>";
+    } else {
+        echo "<script>alert('Error deleting farmer: " . $conn->error . "');</script>";
+    }
+    echo "<script>window.location.href='Farmer_list.php';</script>";
     exit;
 }
 
 // Filter functionality
 $filterQuery = "";
 if(isset($_GET['filter_id']) && !empty($_GET['filter_id'])) {
-    $filter_id = intval($_GET['filter_id']);
-    $filterQuery = " WHERE farmer_id = $filter_id";
+    $filter_id = $conn->real_escape_string($_GET['filter_id']);
+    $filterQuery = " WHERE farmer_id = '$filter_id'";
 }
 ?>
 <!DOCTYPE html>
@@ -157,24 +162,23 @@ if(isset($_GET['filter_id']) && !empty($_GET['filter_id'])) {
                 <?php
                 $sql = "SELECT * FROM farmer" . $filterQuery . " ORDER BY farmer_id DESC";
                 $result = $conn->query($sql);
-                if ($result->num_rows > 0):
+                if ($result && $result->num_rows > 0):
                     while($row = $result->fetch_assoc()):
                 ?>
                 <tr>
                     <td><?= htmlspecialchars($row['farmer_id']) ?></td>
                     <td><?= htmlspecialchars($row['name']) ?></td>
                     <td>
-                        <?= htmlspecialchars($row['road']) ?>, 
-                        <?= htmlspecialchars($row['house']) ?><br>
-                        <?= htmlspecialchars($row['area']) ?>, 
-                        <?= htmlspecialchars($row['District']) ?><br>
-                        <?= htmlspecialchars($row['country']) ?>
+                        <?= isset($row['road']) ? htmlspecialchars($row['road']) : '' ?>, 
+                        <?= isset($row['house']) ? htmlspecialchars($row['house']) : '' ?><br>
+                        <?= isset($row['area']) ? htmlspecialchars($row['area']) : '' ?>, 
+                        <?= isset($row['district']) ? htmlspecialchars($row['district']) : '' ?><br>
+                        <?= isset($row['country']) ? htmlspecialchars($row['country']) : '' ?>
                     </td>
-                    <td><?= $row['years_of_experience'] ?> years</td>
+                    <td><?= htmlspecialchars($row['years_of_experience']) ?> years</td>
                     <td class="action-links">
-                        <a href="edit_farmer.php?id=<?= $row['farmer_id'] ?>">Edit</a>
-                        <a href="?delete_id=<?= $row['farmer_id'] ?>" 
-                           onclick="return confirm('Are you sure you want to delete this farmer?')">Delete</a>
+                        <a href="edit_farmer.php?id=<?= $row['farmer_id'] ?>"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="javascript:void(0)" onclick="deleteFarmer('<?= $row['farmer_id'] ?>')"><i class="fas fa-trash"></i> Delete</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -184,7 +188,17 @@ if(isset($_GET['filter_id']) && !empty($_GET['filter_id'])) {
             </tbody>
         </table>
 
-      
+        <div class="nav-buttons">
+            <a href="index.php" class="btn"><i class="fas fa-home"></i> Home</a>
+        </div>
     </div>
+    
+    <script>
+    function deleteFarmer(id) {
+        if(confirm('Are you sure you want to delete this farmer?')) {
+            window.location.href = 'Farmer_list.php?delete_id=' + id;
+        }
+    }
+    </script>
 </body>
 </html>
