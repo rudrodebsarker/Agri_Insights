@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
         h1 {
             text-align: center;
-            background-color: #2980b9;
+            background-color:rgb(45, 13, 151);
             color: white;
             padding: 20px 0;
             margin-bottom: 30px;
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         }
 
         button {
-            background-color: #2980b9;
+            background-color:rgb(13, 4, 45);
             color: white;
             padding: 12px 30px;
             border: none;
@@ -89,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
             font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
-            width: 100%;
         }
 
         button:hover {
@@ -129,12 +128,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         .view-shipment-btn:hover {
             background-color: #1abc9c;
         }
+
+        /* Back to Dashboard Button */
+        .back-to-dashboard-btn {
+            padding: 10px 20px;
+            background-color:rgb(4, 4, 71);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+            margin-top: 20px;
+            width: 200px; /* Set a fixed width */
+            margin: 0 auto; /* Center the button */
+        }
+
+        .back-to-dashboard-btn:hover {
+            background-color: #1d6a8b;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Record Shipment Date</h1>
+
+    <!-- Back to Dashboard Button -->
+    <button onclick="window.location.href='admin_dashboard.php';" class="back-to-dashboard-btn">Back to Dashboard</button>
 
     <div class="form-container">
         <form method="POST" action="shipment.php">
