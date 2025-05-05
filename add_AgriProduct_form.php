@@ -177,7 +177,7 @@ mysqli_close($db);
       </button>
 
       <button type="submit" name="add_product">Add Product</button>
-      <a href="agriProduct_list.php"><button class="back" type="button">Back</button></a>
+     
     </form>
   </div>
 
