@@ -1,26 +1,26 @@
 <?php
 session_start();
 
-// Check if the user is logged in and their user_type is 'Warehouse_manager'
+
 if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'Warehouse_manager') {
     $_SESSION['msg'] = "You must log in as Warehouse Manager first";
     header('location: login.php');
     exit();
 }
 
-// Database connection
+
 $db = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-// Check connection
+
 if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Fetch all warehouse records from WAREHOUSE table
+
 $sql = "SELECT * FROM WAREHOUSE";
 $result = $db->query($sql);
 
-// Fetch warehouse name and available stock for the Donut chart (sum of available stock)
+
 $query_donut = "SELECT name, SUM(available_stock_of_product) AS total_stock FROM WAREHOUSE GROUP BY name";
 $result_donut = mysqli_query($db, $query_donut);
 $donut_data = [];
@@ -275,7 +275,7 @@ mysqli_close($db);
     <ul class="nav-links">
         <li><a href="inventory.php">Inventory</a></li>
         <li><a href="storage.php">Storage</a></li>
-        <li><a href="Warehouse_management.php">Warehouse</a></li>
+        <li><a href="M_Warehouse_management.php">Warehouse</a></li>
         <li><a href="index.php?logout='1'">Logout</a></li>
     </ul>
 </nav>
@@ -307,7 +307,7 @@ mysqli_close($db);
         </thead>
         <tbody>
             <?php
-            // Fetch and display warehouse records
+           
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>
@@ -334,7 +334,7 @@ mysqli_close($db);
 <?php
 if (isset($_GET['edit_id'])) {
     $edit_id = $_GET['edit_id'];
-    // Fetch the warehouse data for editing
+  
     $db = mysqli_connect('localhost', 'root', '', 'agriculture');
     $sql = "SELECT * FROM WAREHOUSE WHERE warehouse_id='$edit_id'";
     $result = $db->query($sql);

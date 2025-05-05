@@ -181,8 +181,8 @@ footer {
 
 canvas {
   width: 100% !important;
-  height: 350px !important; /* Adjust height to make the chart smaller */
-  max-width: 400px; /* Set maximum width for smaller chart */
+  height: 350px !important; 
+  max-width: 400px; 
   margin-bottom: 30px;
 }
 
@@ -212,7 +212,7 @@ canvas {
   }
 
   canvas {
-    height: 250px !important; /* Further reduce height on smaller screens */
+    height: 250px !important; 
   }
 }
 
@@ -228,9 +228,10 @@ canvas {
         <a href="#" class="logo">AgriInsights</a>
       </div>
       <ul class="nav-links">
-        <li><button onclick="window.location.href='agriProduct_list.php'">Crop Information</button></li>
-        <li><button onclick="window.location.href='production_form.php'">Production Data</button></li>
-        <li><button onclick="window.location.href='product_shipment_details.php'">Shipment Agri_Product </button></li>
+        <li><button onclick="window.location.href='f_agriProduct_list.php'">Crop Information</button></li>
+        <li><button onclick="window.location.href='f_production_list.php'">Production Data</button></li>
+         <li><button onclick="window.location.href='wholeSeller_list.php'">Byer Info</button></li>
+        <li><button onclick="window.location.href='f_product_shipment_details.php'">Shipment Agri_Product </button></li>
         <li><button onclick="window.location.href='weather_Table.php'">weather Info</button></li>
         <li><button onclick="window.location.href='index.php?logout=1'">Logout</button></li>
       </ul>
@@ -242,17 +243,14 @@ canvas {
     <h1>Welcome, <?php echo htmlspecialchars($farmer_name); ?></h1>
     <p>Monitor your crops and manage sales in the market.</p>
 
-    <!-- Dashboard Cards -->
-    
-
     <!-- Chart Section -->
     <div class="chart-container">
-      <!-- Pie Chart for Crop Distribution -->
+ 
       <div>
         <canvas id="pieChart"></canvas>
       </div>
 
-      <!-- Bar Chart for Production Statistics -->
+   
       <div>
         <canvas id="barChart"></canvas>
       </div>
@@ -296,7 +294,7 @@ canvas {
       }
     });
 
-    // Prepare Bar Chart Data (Production Yield)
+    // Prepare Bar Chart Data 
     const barData = {
       labels: <?php echo json_encode($production_labels); ?>,
       datasets: [{
