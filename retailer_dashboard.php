@@ -118,6 +118,7 @@ if (isset($_SESSION['selected_retailer'])) {
   <h2>Retailer</h2>
   <a href="retailer_dashboard.php">Dashboard</a>
   <a href="update_retailer_profile.php">Update Profile</a>
+  <a href="Retailer.php">Join Database</a>
   <a href="available_agriProducts_to_retailer.php">Products</a>
   <a href="sale_information.php">Record Sale</a>
   <a href="Purchased_by_retailer.php">Purchases</a>
