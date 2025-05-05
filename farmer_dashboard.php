@@ -243,6 +243,9 @@ canvas {
     <h1>Welcome, <?php echo htmlspecialchars($farmer_name); ?></h1>
     <p>Monitor your crops and manage sales in the market.</p>
 
+    <!-- Dashboard Cards -->
+    
+
     <!-- Chart Section -->
     <div class="chart-container">
  
@@ -294,7 +297,7 @@ canvas {
       }
     });
 
-    // Prepare Bar Chart Data 
+    // Prepare Bar Chart Data (Production Yield)
     const barData = {
       labels: <?php echo json_encode($production_labels); ?>,
       datasets: [{
