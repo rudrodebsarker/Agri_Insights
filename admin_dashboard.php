@@ -83,7 +83,7 @@
             <a href="#">Buyer Seller Directories</a>
             <ul class="dropdown-menu">
               <li><a href="Farmer_list.php">Farmer</a></li>
-              <li><a href="WholeSeller_list.php">Wholesaler</a></li>
+              <li><a href="WholeSaler_list.php">Wholesaler</a></li>
               <li><a href="Retailer_list.php">Retailer</a></li>
               <li><a href="Consumer_list.php">Consumer</a></li>
             </ul>
