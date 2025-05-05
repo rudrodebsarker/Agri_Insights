@@ -81,7 +81,7 @@ if (isset($_GET['delete_id'])) {
     $sql = "DELETE FROM wholeseller WHERE wholeseller_id = '$delete_id'";
     if ($conn->query($sql)) {
         echo "<script>alert('Wholesaler deleted successfully!');</script>";
-        echo "<script>window.location.href='WholeSeller.php';</script>";
+        echo "<script>window.location.href='Wholesaler_list.php';</script>";
     } else {
         echo "<script>alert('Error deleting wholesaler: " . $conn->error . "');</script>";
     }
@@ -295,6 +295,33 @@ if ($citiesQuery->num_rows > 0) {
             font-size: 100px;
             color: white;
         }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+
+        .next-page-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .next-page-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
@@ -363,47 +390,9 @@ if ($citiesQuery->num_rows > 0) {
             </form>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $result = $conn->query("SELECT * FROM wholeseller ORDER BY wholeseller_id");
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                            <td>" . htmlspecialchars($row['wholeseller_id']) . "</td>
-                            <td>" . htmlspecialchars($row['name']) . "</td>
-                            <td>" . htmlspecialchars($row['contact']) . "</td>
-                            <td>" . htmlspecialchars($row['house']) . ", " . 
-                                    htmlspecialchars($row['road']) . ", " . 
-                                    htmlspecialchars($row['area']) . ", " . 
-                                    htmlspecialchars($row['city']) . ", " . 
-                                    htmlspecialchars($row['country']) . "</td>
-                            <td>
-                                <div class='action-buttons'>
-                                    <a href='?edit_id=" . $row['wholeseller_id'] . "' class='edit-btn'>
-                                        <i class='fas fa-edit'></i>Edit
-                                    </a>
-                                    <a href='?delete_id=" . $row['wholeseller_id'] . "' class='delete-btn' 
-                                       onclick='return confirm(\"Are you sure you want to delete this wholesaler?\")'>
-                                        <i class='fas fa-trash'></i>Delete
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>";
-                    }
-                }
-                ?>
-            </tbody>
-        </table>
+        <div class="nav-buttons">
+            <a href="Wholesaler_list.php" class="next-page-btn"><i class="fas fa-arrow-right"></i> Next Page</a>
+        </div>
     </div>
 </body>
 </html>

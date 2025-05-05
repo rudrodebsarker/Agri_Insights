@@ -43,23 +43,6 @@
         button:hover {
             background: #45a049;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
         .action-links a {
             color: #2196F3;
             text-decoration: none;
@@ -67,6 +50,24 @@
         }
         .action-links a:hover {
             text-decoration: underline;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .next-page-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .next-page-btn:hover {
+            background: #45a049;
         }
     </style>
 </head>
@@ -125,44 +126,15 @@
         if(isset($_GET['delete_id'])) {
             $delete_id = intval($_GET['delete_id']);
             $conn->query("DELETE FROM farmer WHERE farmer_id = $delete_id");
-            header("Location: Farmer.php");
+            header("Location: Farmer_list.php");
         }
         ?>
 
         <h2>Registered Farmers</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Experience</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $result = $conn->query("SELECT * FROM farmer ORDER BY farmer_id DESC");
-                while($row = $result->fetch_assoc()):
-                ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['name']) ?></td>
-                    <td>
-                        <?= htmlspecialchars($row['road']) ?>, 
-                        <?= htmlspecialchars($row['house']) ?><br>
-                        <?= htmlspecialchars($row['area']) ?>, 
-                        <?= htmlspecialchars($row['district']) ?><br>
-                        <?= htmlspecialchars($row['country']) ?>
-                    </td>
-                    <td><?= $row['years_of_experience'] ?> years</td>
-                    <td class="action-links">
-                        <a href="edit_farmer.php?id=<?= $row['farmer_id'] ?>">Edit</a>
-                        <a href="?delete_id=<?= $row['farmer_id'] ?>" 
-                           onclick="return confirm('Are you sure you want to delete this farmer?')">Delete</a>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        
+        <div class="nav-buttons">
+            <a href="Farmer_list.php" class="next-page-btn"><i class="fas fa-arrow-right"></i> Next Page</a>
+        </div>
     </div>
 </body>
 </html>
