@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Consumer Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      background: linear-gradient(135deg, #a2c2e8, #e1eff6);
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .sidebar button {
+      background: none;
+      border: none;
+      color: white;
+      text-align: left;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .sidebar button:hover {
+      background-color: #34495e;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 40px;
+      background-color: rgba(236, 240, 241, 0.9);
+      overflow-y: auto;
+    }
+
+    .section {
+      display: none;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    #profile {
+      background-image: url('https://i.pinimg.com/736x/d5/0b/d4/d50bd4287cf702603597c1a76d523ab9.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    h3 {
+      margin-bottom: 15px;
+      color: #2c3e50;
+    }
+
+    #profile h3 {
+      color: #fff;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .logout {
+      margin-top: auto;
+      color: #e74c3c;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #2c3e50;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #34495e;
+    }
+
+    .success-message {
+      color: green;
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #e8f5e9;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Consumer Menu</h2>
+    <button onclick="showSection('profile')">Profile Info</button>
+    <button onclick="showSection('history')">Purchase History</button>
+    <button onclick="showSection('feedback')">Give Feedback</button>
+    <button class="logout" onclick="location.href='login.html'">Logout</button>
+  </div>
+
+  <div class="main-content">
+    <div id="profile" class="section active">
+      <h3>Profile Information</h3>
+      <p><strong>Consumer ID:</strong> <span id="consumer-id">CON12345</span></p>
+      <p><strong>Name:</strong> <span id="consumer-name">John Doe</span></p>
+      <p><strong>Contact:</strong> <span id="consumer-contact">+1 555-123-4567</span></p>
+      <p><strong>Email:</strong> <span id="consumer-email">john.doe@example.com</span></p>
+    </div>
+
+    <div id="history" class="section">
+      <h3>Purchase History</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+            <th>Retailer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2023-06-15</td>
+            <td>Organic Tomatoes</td>
+            <td>5 kg</td>
+            <td>$3.50</td>
+            <td>$17.50</td>
+            <td>Fresh Farms</td>
+          </tr>
+          <tr>
+            <td>2023-06-10</td>
+            <td>Organic Potatoes</td>
+            <td>10 kg</td>
+            <td>$2.20</td>
+            <td>$22.00</td>
+            <td>Green Valley</td>
+          </tr>
+          <tr>
+            <td>2023-06-05</td>
+            <td>Organic Carrots</td>
+            <td>3 kg</td>
+            <td>$1.80</td>
+            <td>$5.40</td>
+            <td>Nature's Best</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="feedback" class="section">
+      <h3>Give Feedback</h3>
+      <form id="feedbackForm">
+        <p>We value your opinion about our agricultural products and services.</p>
+        <select name="product_id" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+          <option value="">Select a product (optional)</option>
+          <option value="1">Organic Tomatoes</option>
+          <option value="2">Organic Potatoes</option>
+          <option value="3">Organic Carrots</option>
+          <option value="4">Organic Apples</option>
+          <option value="5">Organic Bananas</option>
+        </select>
+        <textarea name="feedback_text" placeholder="Type your feedback here..." required></textarea>
+        <button type="submit" class="btn">Submit Feedback</button>
+      </form>
+      <div id="feedbackMessage" class="success-message" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    function showSection(id) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => section.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    // Handle feedback form submission
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // In a real app, this would be an AJAX call to the server
+      const feedbackMessage = document.getElementById('feedbackMessage');
+      feedbackMessage.textContent = "Thank you for your feedback!";
+      feedbackMessage.style.display = 'block';
+      
+      // Reset form
+      this.reset();
+      
+      // Hide message after 3 seconds
+      setTimeout(() => {
+        feedbackMessage.style.display = 'none';
+      }, 3000);
+    });
+
+    // Sample data that would normally come from PHP
+    const consumerData = {
+      id: "CON12345",
+      name: "John Doe",
+      contact: "+1 555-123-4567",
+      email: "john.doe@example.com"
+    };
+
+    const purchaseHistory = [
+      {
+        date: "2023-06-15",
+        product: "Organic Tomatoes",
+        quantity: 5,
+        price: 3.50,
+        total: 17.50,
+        retailer: "Fresh Farms"
+      },
+      {
+        date: "2023-06-10",
+        product: "Organic Potatoes",
+        quantity: 10,
+        price: 2.20,
+        total: 22.00,
+        retailer: "Green Valley"
+      },
+      {
+        date: "2023-06-05",
+        product: "Organic Carrots",
+        quantity: 3,
+        price: 1.80,
+        total: 5.40,
+        retailer: "Nature's Best"
+      }
+    ];
+
+    const products = [
+      { id: 1, name: "Organic Tomatoes" },
+      { id: 2, name: "Organic Potatoes" },
+      { id: 3, name: "Organic Carrots" },
+      { id: 4, name: "Organic Apples" },
+      { id: 5, name: "Organic Bananas" }
+    ];
+  </script>
+</body>
+</html>
