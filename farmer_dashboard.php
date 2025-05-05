@@ -212,7 +212,7 @@ canvas {
   }
 
   canvas {
-    height: 250px !important; /* Further reduce height on smaller screens */
+    height: 250px !important; 
   }
 }
 
@@ -228,10 +228,12 @@ canvas {
         <a href="#" class="logo">AgriInsights</a>
       </div>
       <ul class="nav-links">
-        <li><button onclick="window.location.href='agriProduct_list.php'">Crop Information</button></li>
-        <li><button onclick="window.location.href='production_form.php'">Production Data</button></li>
-        <li><button onclick="window.location.href='product_shipment_details.php'">Shipment Agri_Product </button></li>
+        <li><button onclick="window.location.href='f_agriProduct_list.php'">Crop Information</button></li>
+        <li><button onclick="window.location.href='f_production_list.php'">Production Data</button></li>
+         <li><button onclick="window.location.href='wholeSeller_list.php'">Byer Info</button></li>
+        <li><button onclick="window.location.href='f_product_shipment_details.php'">Shipment Agri_Product </button></li>
         <li><button onclick="window.location.href='weather_Table.php'">weather Info</button></li>
+        <li><button onclick="window.location.href='farmers_recommendation.php'">Recomendation</button></li>
         <li><button onclick="window.location.href='index.php?logout=1'">Logout</button></li>
       </ul>
     </div>
@@ -247,12 +249,12 @@ canvas {
 
     <!-- Chart Section -->
     <div class="chart-container">
-      <!-- Pie Chart for Crop Distribution -->
+ 
       <div>
         <canvas id="pieChart"></canvas>
       </div>
 
-      <!-- Bar Chart for Production Statistics -->
+   
       <div>
         <canvas id="barChart"></canvas>
       </div>

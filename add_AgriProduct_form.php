@@ -1,64 +1,69 @@
 <?php
-// Start the session
+
 session_start();
 
-// Connect to the database
 $db = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-// Check connection
 if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Check if the form is submitted
 if (isset($_POST['add_product'])) {
-    // Sanitize and retrieve form data
+    
     $product_id = mysqli_real_escape_string($db, $_POST['product_id']);
     $name = mysqli_real_escape_string($db, $_POST['name']);
     $seasonality = mysqli_real_escape_string($db, $_POST['seasonality']);
     $type = mysqli_real_escape_string($db, $_POST['type']);
 
-    // Insert the product into the agri_product table
-    $sql_product = "INSERT INTO agri_product (product_id, name, seasonality, type) 
-                    VALUES ('$product_id', '$name', '$seasonality', '$type')";
+    // Check for duplicate product ID
+    $check_sql = "SELECT * FROM agri_product WHERE product_id = '$product_id'";
+    $check_result = mysqli_query($db, $check_sql);
 
-    if (mysqli_query($db, $sql_product)) {
-        // Ensure product_id exists in agri_product table (check foreign key relationship)
-        $check_product = "SELECT product_id FROM agri_product WHERE product_id = '$product_id'";
-        $result = mysqli_query($db, $check_product);
-        
-        if (mysqli_num_rows($result) > 0) {
-            // Insert the varieties into the agri_product_variety table
-            if (!empty($_POST['varieties'])) {
-                foreach ($_POST['varieties'] as $variety) {
-                    // Sanitize each variety input
-                    $variety = mysqli_real_escape_string($db, $variety);
+    if (mysqli_num_rows($check_result) > 0) {
 
-                    // Insert each variety into the agri_product_variety table
-                    $sql_variety = "INSERT INTO agri_product_variety (product_id, variety) 
-                                    VALUES ('$product_id', '$variety')";
-
-                    if (!mysqli_query($db, $sql_variety)) {
-                        echo "Error inserting variety: " . mysqli_error($db) . "<br>";
-                        exit;  // Stop execution on error
-                    }
-                }
-            } else {
-                echo "No varieties provided.<br>";
-            }
-
-            // Redirect to the product list page after successful insertion
-            header("Location: agriProduct_list.php");
-            exit;
-        } else {
-            echo "Product ID does not exist in agri_product table. Please check the product details.<br>";
-        }
+        echo "<script>alert('Error: Product ID already exists. Please choose a unique Product ID.');</script>";
     } else {
-        echo "Error inserting product: " . mysqli_error($db) . "<br>";
+        // Insert the product into the agri_product table
+        $sql_product = "INSERT INTO agri_product (product_id, name, seasonality, type) 
+                        VALUES ('$product_id', '$name', '$seasonality', '$type')";
+
+        if (mysqli_query($db, $sql_product)) {
+            // Ensure product_id exists in agri_product table 
+            $check_product = "SELECT product_id FROM agri_product WHERE product_id = '$product_id'";
+            $result = mysqli_query($db, $check_product);
+            
+            if (mysqli_num_rows($result) > 0) {
+                // Insert the varieties into the agri_product_variety table
+                if (!empty($_POST['varieties'])) {
+                    foreach ($_POST['varieties'] as $variety) {
+                        // Sanitize each variety input
+                        $variety = mysqli_real_escape_string($db, $variety);
+
+                        // Insert each variety into the agri_product_variety table
+                        $sql_variety = "INSERT INTO agri_product_variety (product_id, variety) 
+                                        VALUES ('$product_id', '$variety')";
+
+                        if (!mysqli_query($db, $sql_variety)) {
+                            echo "Error inserting variety: " . mysqli_error($db) . "<br>";
+                            exit; 
+                        }
+                    }
+                } else {
+                    echo "No varieties provided.<br>";
+                }
+
+                // Redirect to the product list page after successful insertion
+                echo "<script>alert('Product added successfully!'); window.location.href='agriProduct_list.php';</script>";
+                exit;
+            } else {
+                echo "Product ID does not exist in agri_product table. Please check the product details.<br>";
+            }
+        } else {
+            echo "Error inserting product: " . mysqli_error($db) . "<br>";
+        }
     }
 }
 
-// Close the database connection
 mysqli_close($db);
 ?>
 
@@ -177,12 +182,12 @@ mysqli_close($db);
       </button>
 
       <button type="submit" name="add_product">Add Product</button>
-      <a href="agriProduct_list.php"><button class="back" type="button">Back</button></a>
+    
     </form>
   </div>
 
   <script>
-    // JavaScript to add more variety fields dynamically
+  
     document.getElementById('add-variety').addEventListener('click', function() {
       var newVarietyField = document.createElement('div');
       newVarietyField.classList.add('variety-input');

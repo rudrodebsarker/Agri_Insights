@@ -1,26 +1,21 @@
 <?php
 session_start();
 
-// Check if the user is logged in and their user_type is 'Warehouse_manager'
 if (!isset($_SESSION['username']) || $_SESSION['user_type'] != 'Warehouse_manager') {
     $_SESSION['msg'] = "You must log in as Warehouse Manager first";
     header('location: login.php');
     exit();
 }
 
-// Database connection
 $db = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-// Check connection
 if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Fetch all warehouse records from WAREHOUSE table
 $sql = "SELECT * FROM WAREHOUSE";
 $result = $db->query($sql);
 
-// Fetch warehouse name and available stock for the Donut chart (sum of available stock)
 $query_donut = "SELECT name, SUM(available_stock_of_product) AS total_stock FROM WAREHOUSE GROUP BY name";
 $result_donut = mysqli_query($db, $query_donut);
 $donut_data = [];
@@ -28,8 +23,10 @@ while ($row = mysqli_fetch_assoc($result_donut)) {
     $donut_data[] = $row;
 }
 
+$message = '';  // Default message variable
+
 // Handle form submission to edit warehouse data
-if (isset($_POST['edit'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit'])) {
     $warehouse_id = $_POST['warehouse_id'];
     $name = $_POST['name'];
     $location = $_POST['location'];
@@ -43,9 +40,9 @@ if (isset($_POST['edit'])) {
                    WHERE warehouse_id='$warehouse_id'";
 
     if ($db->query($update_sql) === TRUE) {
-        echo "Record updated successfully";
+        $message = "Record updated successfully.";  // Success message
     } else {
-        echo "Error updating record: " . $db->error;
+        $message = "Error updating record: " . $db->error;  // Error message
     }
 }
 
@@ -169,18 +166,6 @@ mysqli_close($db);
             background-color: #f9f9f9;
         }
 
-        .actions a {
-            padding: 8px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-
-        .actions a:hover {
-            background-color: #45a049;
-        }
-
         /* Edit Form Styles */
         .form-container {
             background-color: #fff;
@@ -224,33 +209,6 @@ mysqli_close($db);
             scroll-behavior: smooth;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .navbar {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .container {
-                margin: 20px;
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            .form-container {
-                padding: 20px;
-                margin-top: 20px;
-            }
-        }
-
         /* Donut Chart Styles */
         .chart-container {
             display: flex;
@@ -275,7 +233,9 @@ mysqli_close($db);
     <ul class="nav-links">
         <li><a href="inventory.php">Inventory</a></li>
         <li><a href="storage.php">Storage</a></li>
-        <li><a href="Warehouse_management.php">Warehouse</a></li>
+        <li><a href="w_Shipment_details.php">Shipped product info</a></li>
+        <li><a href="w_shipment_date.php">Ship Date</a></li>
+        <li><a href="M_Warehouse_management.php">Warehouse</a></li>
         <li><a href="index.php?logout='1'">Logout</a></li>
     </ul>
 </nav>
@@ -291,8 +251,11 @@ mysqli_close($db);
         <canvas id="donutChart"></canvas>
     </div>
 
+    <!-- Success Message -->
+    <?php if (isset($message)) { echo "<p style='color: green;'>$message</p>"; } ?>
+
     <!-- Warehouse Table -->
-    <h2>Existing Warehouses</h2>
+    <h2 id="tableArea">Existing Warehouses</h2>
     <table>
         <thead>
             <tr>
@@ -307,7 +270,6 @@ mysqli_close($db);
         </thead>
         <tbody>
             <?php
-            // Fetch and display warehouse records
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>
@@ -334,7 +296,7 @@ mysqli_close($db);
 <?php
 if (isset($_GET['edit_id'])) {
     $edit_id = $_GET['edit_id'];
-    // Fetch the warehouse data for editing
+
     $db = mysqli_connect('localhost', 'root', '', 'agriculture');
     $sql = "SELECT * FROM WAREHOUSE WHERE warehouse_id='$edit_id'";
     $result = $db->query($sql);
@@ -344,7 +306,7 @@ if (isset($_GET['edit_id'])) {
     <!-- Edit Form -->
     <div id="editForm" class="form-container">
         <h2>Edit Warehouse Information</h2>
-        <form method="POST" action="warehouse_management.php">
+        <form method="POST" action="warehouse_manager_dashboard.php">
             <input type="hidden" name="warehouse_id" value="<?php echo $row['warehouse_id']; ?>">
 
             <label for="name">Warehouse Name:</label>

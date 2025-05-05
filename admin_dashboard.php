@@ -55,7 +55,7 @@
           <ul class="dropdown-menu">
             <li><a href="weather.php">Weather Data Input</a></li>
             
-            <li><a href="production_form.php">Agriofficer's Recomendation</a></li> 
+            <li><a href="">Agriofficer's Recomendation</a></li> 
           </ul>
         </li>
 
@@ -82,10 +82,10 @@
         <li class="dropdown">
             <a href="#">Buyer Seller Directories</a>
             <ul class="dropdown-menu">
-              <li><a href="Farmer.html">Farmer</a></li>
-              <li><a href="WholeSeller.html">Wholesaler</a></li>
-              <li><a href="Retailer.html">Retailer</a></li>
-              <li><a href="Consumer.html">Consumer</a></li>
+              <li><a href="Farmer_list.php">Farmer</a></li>
+              <li><a href="WholeSaler_list.php">Wholesaler</a></li>
+              <li><a href="Retailer_list.php">Retailer</a></li>
+              <li><a href="Consumer_list.php">Consumer</a></li>
             </ul>
         </li>
 
