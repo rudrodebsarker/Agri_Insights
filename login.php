@@ -1,5 +1,4 @@
 <?php 
-// Include the server.php file where the database connection is made
 include('server.php');
 
 // Initialize variables
@@ -11,7 +10,7 @@ $errors = array();
 if (isset($_POST['login_user'])) {
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
-    $user_type = mysqli_real_escape_string($db, $_POST['user_type']); // Get the selected user type
+    $user_type = mysqli_real_escape_string($db, $_POST['user_type']); 
 
     if (empty($username)) { array_push($errors, "Username is required"); }
     if (empty($password)) { array_push($errors, "Password is required"); }
@@ -41,7 +40,7 @@ if (isset($_POST['login_user'])) {
             } elseif ($user['user_type'] == 'Consumer') {
                 header('location: consumer_dashboard.php');
             }elseif ($user['user_type'] == 'Warehouse_manager') {
-              header('location:Warehouse_manager_dashboard.php');
+              header('location: Warehouse_manager_dashboard.php');
           } else {
                 header('location: user_dashboard.php');
             }
@@ -73,13 +72,13 @@ if (isset($_POST['login_user'])) {
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('images/pic4.avif'); /* Use your background image */
+            background-image: url('images/pic4.avif'); 
             background-size: cover;
             background-position: center;
         }
 
         .login-box {
-            background-color: rgba(223, 239, 214, 0.9); /* White with slight transparency */
+            background-color: rgba(223, 239, 214, 0.9); 
             width: 350px;
             padding: 40px;
             border-radius: 10px;
@@ -180,7 +179,7 @@ if (isset($_POST['login_user'])) {
                 <label for="user_type">User Type</label>
                 <select name="user_type" id="user_type" required>
                     <option value="Farmer">Farmer</option>
-                    <option value="AgrOfficer">Agricultural Officer</option>
+                    <option value="Agricultural_Officer">Agricultural Officer</option>
                     <option value="Admin">Admin</option>
                     <option value="Retailer">Retailer</option>
                     <option value="Wholesaler">Wholesaler</option>

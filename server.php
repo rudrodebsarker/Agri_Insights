@@ -10,8 +10,6 @@ $errors = array();
 // Connect to the database
 $db = mysqli_connect('localhost', 'root', '', 'agriculture');
 
-
-
 // REGISTER USER
 if (isset($_POST['reg_user'])) {
     // Receive all input values from the form
@@ -52,29 +50,12 @@ if (isset($_POST['reg_user'])) {
                   VALUES('$username', '$email', '$password', '$user_type')";
         mysqli_query($db, $query);
 
-        $_SESSION['username'] = $username;
-        $_SESSION['user_type'] = $user_type; // Store user type in session
-        $_SESSION['success'] = "You are now logged in";
+        // Store success message
+        $_SESSION['success'] = "Registration successful! You can now log in.";
 
-        // Redirect to the appropriate dashboard based on user type
-        if ($user_type == 'Admin') {
-            header('location: admin_dashboard.php');
-        } elseif ($user_type == 'Farmer') {
-            header('location: farmer_dashboard.php');
-        } elseif ($user_type == 'Agricultural_Officer') {
-            header('location: agriOfficer_dashboard.php');
-        } elseif ($user_type == 'Wholesaler') {
-            header('location: wholesaler_dashboard.php');
-        } elseif ($user_type == 'Retailer') {
-            header('location: retailer_dashboard.php');
-        } elseif ($user_type == 'Consumer') {
-            header('location: consumer_dashboard.php');
-        }elseif ($user_type == 'Warehouse_manager') {
-          header('location: Warehouse_manager_dashboard.php');
-      }
-         else {
-            header('location: user_dashboard.php');
-        }
+        // Redirect to the login page
+        header('location: login.php'); // Redirect to login page
+        exit(); // Ensure no further code is executed
     }
 }
 ?>
