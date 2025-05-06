@@ -1,6 +1,17 @@
 <?php 
-// Include the dp_config.php file for database configuration
-include('dp_config.php'); 
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
+
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // Create the retailer table if it doesn't exist
 $sql = "CREATE TABLE IF NOT EXISTS retailer (
@@ -9,7 +20,7 @@ $sql = "CREATE TABLE IF NOT EXISTS retailer (
     contact VARCHAR(50) NOT NULL,
     road VARCHAR(100),
     area VARCHAR(100),
-    city VARCHAR(100),
+    district VARCHAR(100),
     country VARCHAR(100)
 )";
 if (!$conn->query($sql)) {
@@ -25,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $contact = $conn->real_escape_string($_POST['contact']);
         $road = $conn->real_escape_string($_POST['road']);
         $area = $conn->real_escape_string($_POST['area']);
-        $city = $conn->real_escape_string($_POST['city']);
+        $district = $conn->real_escape_string($_POST['city']);
         $country = $conn->real_escape_string($_POST['country']);
         $edit_id = $conn->real_escape_string($_POST['edit_id']);
 
@@ -35,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 contact = '$contact', 
                 road = '$road', 
                 area = '$area', 
-                city = '$city', 
+                district = '$district', 
                 country = '$country' 
                 WHERE retailer_id = '$edit_id'";
 
@@ -51,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $contact = $conn->real_escape_string($_POST['contact']);
         $road = $conn->real_escape_string($_POST['road']);
         $area = $conn->real_escape_string($_POST['area']);
-        $city = $conn->real_escape_string($_POST['city']);
+        $district = $conn->real_escape_string($_POST['city']);
         $country = $conn->real_escape_string($_POST['country']);
 
         // Check if retailer ID already exists
@@ -59,8 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($check->num_rows > 0) {
             echo "<script>alert('Retailer ID already exists!');</script>";
         } else {
-            $sql = "INSERT INTO retailer (retailer_id, name, contact, road, area, city, country) 
-                    VALUES ('$retailer_id', '$name', '$contact', '$road', '$area', '$city', '$country')";
+            $sql = "INSERT INTO retailer (retailer_id, name, contact, road, area, district, country) 
+                    VALUES ('$retailer_id', '$name', '$contact', '$road', '$area', '$district', '$country')";
 
             if ($conn->query($sql)) {
                 echo "<script>alert('Retailer added successfully!');</script>";
@@ -97,12 +108,24 @@ if (isset($_GET['edit_id'])) {
 
 // Calculate statistics
 $totalRetailers = 0;
-$citiesQuery = $conn->query("SELECT COUNT(DISTINCT city) as city_count, COUNT(*) as retailer_count FROM retailer");
-if ($citiesQuery->num_rows > 0) {
-    $stats = $citiesQuery->fetch_assoc();
+// First check if retailer table exists and count total records
+$result = $conn->query("SELECT COUNT(*) as retailer_count FROM retailer");
+if ($result && $result->num_rows > 0) {
+    $stats = $result->fetch_assoc();
     $totalRetailers = $stats['retailer_count'];
-    $activeCities = $stats['city_count'];
+    
+    // Now check if district column exists
+    $checkColumn = $conn->query("SHOW COLUMNS FROM retailer LIKE 'district'");
+    if ($checkColumn && $checkColumn->num_rows > 0) {
+        // District column exists, count distinct values
+        $districtResult = $conn->query("SELECT COUNT(DISTINCT district) as district_count FROM retailer");
+        $districtStats = $districtResult->fetch_assoc();
+        $activeCities = $districtStats['district_count'];
+    } else {
+        $activeCities = 0;
+    }
 } else {
+    $totalRetailers = 0;
     $activeCities = 0;
 }
 ?>
@@ -365,7 +388,7 @@ if ($citiesQuery->num_rows > 0) {
                     </div>
                     <div class="input-group">
                         <label><i class="fas fa-map-marked"></i>District</label>
-                        <input type="text" name="city" value="<?php echo $editMode ? $editData['city'] : ''; ?>" required>
+                        <input type="text" name="city" value="<?php echo $editMode ? $editData['district'] : ''; ?>" required>
                     </div>
                     <div class="input-group">
                         <label><i class="fas fa-flag"></i>Country</label>

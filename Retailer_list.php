@@ -1,6 +1,17 @@
 <?php 
-// Include the dp_config.php file for database configuration
-include('dp_config.php'); 
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
+
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // Handle delete operation
 if (isset($_GET['delete_id'])) {
@@ -23,12 +34,22 @@ if(isset($_GET['filter_id']) && !empty($_GET['filter_id'])) {
 
 // Calculate statistics
 $totalRetailers = 0;
-$citiesQuery = $conn->query("SELECT COUNT(DISTINCT city) as city_count, COUNT(*) as retailer_count FROM retailer");
-if ($citiesQuery->num_rows > 0) {
-    $stats = $citiesQuery->fetch_assoc();
+// First check if retailer table exists and count total records
+$result = $conn->query("SELECT COUNT(*) as retailer_count FROM retailer");
+if ($result && $result->num_rows > 0) {
+    $stats = $result->fetch_assoc();
     $totalRetailers = $stats['retailer_count'];
-    $activeCities = $stats['city_count'];
+    
+    // Get the count of distinct districts
+    $districtResult = $conn->query("SELECT COUNT(DISTINCT district) as district_count FROM retailer");
+    if ($districtResult && $districtResult->num_rows > 0) {
+        $districtStats = $districtResult->fetch_assoc();
+        $activeCities = $districtStats['district_count'];
+    } else {
+        $activeCities = 0;
+    }
 } else {
+    $totalRetailers = 0;
     $activeCities = 0;
 }
 ?>
@@ -295,17 +316,17 @@ if ($citiesQuery->num_rows > 0) {
                             <td>" . htmlspecialchars($row['retailer_id']) . "</td>
                             <td>" . htmlspecialchars($row['name']) . "</td>
                             <td>" . htmlspecialchars($row['contact']) . "</td>
-                            <td>" . htmlspecialchars($row['road']) . ", " . 
-                                    htmlspecialchars($row['area']) . ", " . 
-                                    htmlspecialchars($row['city']) . ", " . 
-                                    htmlspecialchars($row['country']) . "</td>
+                            <td>" . (isset($row['road']) ? htmlspecialchars($row['road']) : '') . ", " . 
+                                    (isset($row['area']) ? htmlspecialchars($row['area']) : '') . ", " . 
+                                    (isset($row['district']) ? htmlspecialchars($row['district']) : '') . ", " . 
+                                    (isset($row['country']) ? htmlspecialchars($row['country']) : '') . "</td>
                             <td>
                                 <div class='action-buttons'>
                                     <a href='Retailer.php?edit_id=" . $row['retailer_id'] . "' class='edit-btn'>
                                         <i class='fas fa-edit'></i>Edit
                                     </a>
-                                    <a href='?delete_id=" . $row['retailer_id'] . "' class='delete-btn' 
-                                       onclick='return confirm(\"Are you sure you want to delete this retailer?\")'>
+                                    <a href='javascript:void(0)' class='delete-btn' 
+                                       onclick='deleteRetailer(" . $row['retailer_id'] . ")'>
                                         <i class='fas fa-trash'></i>Delete
                                     </a>
                                 </div>
@@ -319,7 +340,16 @@ if ($citiesQuery->num_rows > 0) {
 
         <div class="nav-buttons">
             <a href="Retailer.php" class="btn"><i class="fas fa-arrow-left"></i> Back to Form</a>
+            <a href="index.php" class="btn"><i class="fas fa-home"></i> Home</a>
         </div>
     </div>
+
+    <script>
+    function deleteRetailer(id) {
+        if(confirm('Are you sure you want to delete this retailer?')) {
+            window.location.href = 'Retailer_list.php?delete_id=' + id;
+        }
+    }
+    </script>
 </body>
 </html>

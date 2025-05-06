@@ -1,11 +1,22 @@
 <?php 
-// Include the dp_config.php file for database configuration
-include('dp_config.php'); 
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
+
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // Handle delete operation
 if (isset($_GET['delete_id'])) {
     $delete_id = $conn->real_escape_string($_GET['delete_id']);
-    $sql = "DELETE FROM wholeseller WHERE wholeseller_id = '$delete_id'";
+    $sql = "DELETE FROM wholesaler WHERE wholesaler_id = '$delete_id'";
     if ($conn->query($sql)) {
         echo "<script>alert('Wholesaler deleted successfully!');</script>";
         echo "<script>window.location.href='Wholesaler_list.php';</script>";
@@ -18,17 +29,27 @@ if (isset($_GET['delete_id'])) {
 $filterQuery = "";
 if(isset($_GET['filter_id']) && !empty($_GET['filter_id'])) {
     $filter_id = $conn->real_escape_string($_GET['filter_id']);
-    $filterQuery = " WHERE wholeseller_id = '$filter_id'";
+    $filterQuery = " WHERE wholesaler_id = '$filter_id'";
 }
 
 // Calculate statistics
-$totalWholesellers = 0;
-$citiesQuery = $conn->query("SELECT COUNT(DISTINCT city) as city_count, COUNT(*) as wholeseller_count FROM wholeseller");
-if ($citiesQuery->num_rows > 0) {
-    $stats = $citiesQuery->fetch_assoc();
-    $totalWholesellers = $stats['wholeseller_count'];
-    $activeCities = $stats['city_count'];
+$totalWholesalers = 0;
+// First check if retailer table exists and count total records
+$result = $conn->query("SELECT COUNT(*) as wholesaler_count FROM wholesaler");
+if ($result && $result->num_rows > 0) {
+    $stats = $result->fetch_assoc();
+    $totalWholesalers = $stats['wholesaler_count'];
+    
+    // Get the count of distinct districts
+    $districtResult = $conn->query("SELECT COUNT(DISTINCT district) as district_count FROM wholesaler");
+    if ($districtResult && $districtResult->num_rows > 0) {
+        $districtStats = $districtResult->fetch_assoc();
+        $activeCities = $districtStats['district_count'];
+    } else {
+        $activeCities = 0;
+    }
 } else {
+    $totalWholesalers = 0;
     $activeCities = 0;
 }
 ?>
@@ -262,8 +283,8 @@ if ($citiesQuery->num_rows > 0) {
             <i class="fas fa-chart-bar stats-icon"></i>
             <div>
                 <h3>Wholesaler Statistics</h3>
-                <p>Total Wholesalers: <span id="totalWholesellers"><?php echo $totalWholesellers; ?></span></p>
-                <p>Active Cities: <span id="activeCities"><?php echo $activeCities; ?></span></p>
+                <p>Total Wholesalers: <span id="totalWholesalers"><?php echo $totalWholesalers; ?></span></p>
+                <p>Active Districts: <span id="activeCities"><?php echo $activeCities; ?></span></p>
             </div>
         </div>
 
@@ -287,26 +308,37 @@ if ($citiesQuery->num_rows > 0) {
             </thead>
             <tbody>
                 <?php
-                $sql = "SELECT * FROM wholeseller" . $filterQuery . " ORDER BY wholeseller_id";
+                $sql = "SELECT * FROM wholesaler" . $filterQuery . " ORDER BY wholesaler_id";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
+                        $wholesaler_id = $row['wholesaler_id'];
                         echo "<tr>
-                            <td>" . htmlspecialchars($row['wholeseller_id']) . "</td>
+                            <td>" . htmlspecialchars($row['wholesaler_id']) . "</td>
                             <td>" . htmlspecialchars($row['name']) . "</td>
                             <td>" . htmlspecialchars($row['contact']) . "</td>
-                            <td>" . htmlspecialchars($row['house']) . ", " . 
-                                    htmlspecialchars($row['road']) . ", " . 
-                                    htmlspecialchars($row['area']) . ", " . 
-                                    htmlspecialchars($row['city']) . ", " . 
-                                    htmlspecialchars($row['country']) . "</td>
+                            <td>";
+                            
+                            // Build address parts dynamically
+                            $addressParts = array();
+                            if (isset($row['house']) && !empty($row['house'])) $addressParts[] = htmlspecialchars($row['house']);
+                            if (isset($row['road']) && !empty($row['road'])) $addressParts[] = htmlspecialchars($row['road']);
+                            if (isset($row['area']) && !empty($row['area'])) $addressParts[] = htmlspecialchars($row['area']);
+                            if (isset($row['district']) && !empty($row['district'])) {
+                                $addressParts[] = htmlspecialchars($row['district']);
+                            } else if (isset($row['city']) && !empty($row['city'])) {
+                                $addressParts[] = htmlspecialchars($row['city']);
+                            }
+                            if (isset($row['country']) && !empty($row['country'])) $addressParts[] = htmlspecialchars($row['country']);
+                            
+                            echo implode(", ", $addressParts) . "</td>
                             <td>
                                 <div class='action-buttons'>
-                                    <a href='Wholesaler.php?edit_id=" . $row['wholeseller_id'] . "' class='edit-btn'>
+                                    <a href='Wholesaler.php?edit_id=" . $wholesaler_id . "' class='edit-btn'>
                                         <i class='fas fa-edit'></i>Edit
                                     </a>
-                                    <a href='?delete_id=" . $row['wholeseller_id'] . "' class='delete-btn' 
-                                       onclick='return confirm(\"Are you sure you want to delete this wholesaler?\")'>
+                                    <a href='javascript:void(0)' class='delete-btn' 
+                                       onclick='deleteWholesaler(\"" . $wholesaler_id . "\")'>
                                         <i class='fas fa-trash'></i>Delete
                                     </a>
                                 </div>
@@ -320,7 +352,16 @@ if ($citiesQuery->num_rows > 0) {
 
         <div class="nav-buttons">
             <a href="Wholesaler.php" class="btn"><i class="fas fa-arrow-left"></i> Back to Form</a>
+            <a href="index.php" class="btn"><i class="fas fa-home"></i> Home</a>
         </div>
     </div>
+
+    <script>
+        function deleteWholesaler(id) {
+            if(confirm('Are you sure you want to delete this wholesaler?')) {
+                window.location.href = 'Wholesaler_list.php?delete_id=' + id;
+            }
+        }
+    </script>
 </body>
 </html>

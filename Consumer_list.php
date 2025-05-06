@@ -1,6 +1,17 @@
 <?php 
-// Include the dp_config.php file for database configuration
-include('dp_config.php'); 
+// Database connection
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "agriculture";
+
+// Create connection
+$conn = new mysqli($host, $user, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
 
 // Handle delete operation
 if (isset($_GET['delete_id'])) {
@@ -301,8 +312,8 @@ if ($emailsQuery->num_rows > 0) {
                                     <a href='Consumer.php?edit_id=" . $row['consumer_id'] . "' class='edit-btn'>
                                         <i class='fas fa-edit'></i>Edit
                                     </a>
-                                    <a href='?delete_id=" . $row['consumer_id'] . "' class='delete-btn' 
-                                       onclick='return confirm(\"Are you sure you want to delete this consumer?\")'>
+                                    <a href='javascript:void(0)' class='delete-btn' 
+                                       onclick='deleteConsumer(\"" . $row['consumer_id'] . "\")'>
                                         <i class='fas fa-trash'></i>Delete
                                     </a>
                                 </div>
@@ -316,7 +327,16 @@ if ($emailsQuery->num_rows > 0) {
 
         <div class="nav-buttons">
             <a href="Consumer.php" class="btn"><i class="fas fa-arrow-left"></i> Back to Form</a>
+            <a href="index.php" class="btn"><i class="fas fa-home"></i> Home</a>
         </div>
     </div>
+
+    <script>
+    function deleteConsumer(id) {
+        if(confirm('Are you sure you want to delete this consumer?')) {
+            window.location.href = 'Consumer_list.php?delete_id=' + id;
+        }
+    }
+    </script>
 </body>
 </html>
