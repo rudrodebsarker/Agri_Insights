@@ -40,22 +40,13 @@ if ($result && $result->num_rows > 0) {
     $stats = $result->fetch_assoc();
     $totalRetailers = $stats['retailer_count'];
     
-    // Now check if city column exists
-    $checkColumn = $conn->query("SHOW COLUMNS FROM retailer LIKE 'city'");
-    if ($checkColumn && $checkColumn->num_rows > 0) {
-        // City column exists, count distinct values
-        $cityResult = $conn->query("SELECT COUNT(DISTINCT city) as city_count FROM retailer");
-        $cityStats = $cityResult->fetch_assoc();
-        $activeCities = $cityStats['city_count'];
+    // Get the count of distinct districts
+    $districtResult = $conn->query("SELECT COUNT(DISTINCT district) as district_count FROM retailer");
+    if ($districtResult && $districtResult->num_rows > 0) {
+        $districtStats = $districtResult->fetch_assoc();
+        $activeCities = $districtStats['district_count'];
     } else {
-        // Try with 'district' instead since that may be the column name being used
-        $districtResult = $conn->query("SELECT COUNT(DISTINCT district) as district_count FROM retailer");
-        if ($districtResult && $districtResult->num_rows > 0) {
-            $districtStats = $districtResult->fetch_assoc();
-            $activeCities = $districtStats['district_count'];
-        } else {
-            $activeCities = 0;
-        }
+        $activeCities = 0;
     }
 } else {
     $totalRetailers = 0;
@@ -327,8 +318,7 @@ if ($result && $result->num_rows > 0) {
                             <td>" . htmlspecialchars($row['contact']) . "</td>
                             <td>" . (isset($row['road']) ? htmlspecialchars($row['road']) : '') . ", " . 
                                     (isset($row['area']) ? htmlspecialchars($row['area']) : '') . ", " . 
-                                    (isset($row['city']) ? htmlspecialchars($row['city']) : 
-                                        (isset($row['district']) ? htmlspecialchars($row['district']) : '')) . ", " . 
+                                    (isset($row['district']) ? htmlspecialchars($row['district']) : '') . ", " . 
                                     (isset($row['country']) ? htmlspecialchars($row['country']) : '') . "</td>
                             <td>
                                 <div class='action-buttons'>
