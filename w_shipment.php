@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
         </form>
     </div>
 
-    <button onclick="window.location.href='product_shipment_details.php';" class="product-details-btn">View Product Shipment Details</button>
+    <button onclick="window.location.href='w_product_shipment_details.php';" class="product-details-btn">View Product Shipment Details</button>
     <button onclick="window.location.href='shipment_list.php';" class="view-shipment-btn">View Shipment List</button>
 
 </div>
