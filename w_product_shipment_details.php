@@ -1,7 +1,6 @@
 <?php
 include 'db_config.php';  
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $shipment_id = $_POST['shipment_id'];
     $product_id = $_POST['product_id'];
@@ -9,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $product_total_cost = $_POST['product_total_cost'];
 
    
-
     $sql = "INSERT INTO SHIPMENT_AGRI_PRODUCT (shipment_id, product_id, quantity_shipped, cost) 
             VALUES ('$shipment_id', '$product_id', '$quantity_shipped', '$product_total_cost')";
 
