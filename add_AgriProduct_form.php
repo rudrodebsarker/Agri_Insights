@@ -28,18 +28,18 @@ if (isset($_POST['add_product'])) {
                         VALUES ('$product_id', '$name', '$seasonality', '$type')";
 
         if (mysqli_query($db, $sql_product)) {
-            // Ensure product_id exists in agri_product table 
+         
             $check_product = "SELECT product_id FROM agri_product WHERE product_id = '$product_id'";
             $result = mysqli_query($db, $check_product);
             
             if (mysqli_num_rows($result) > 0) {
-                // Insert the varieties into the agri_product_variety table
+              
                 if (!empty($_POST['varieties'])) {
                     foreach ($_POST['varieties'] as $variety) {
-                        // Sanitize each variety input
+                    
                         $variety = mysqli_real_escape_string($db, $variety);
 
-                        // Insert each variety into the agri_product_variety table
+                  
                         $sql_variety = "INSERT INTO agri_product_variety (product_id, variety) 
                                         VALUES ('$product_id', '$variety')";
 
